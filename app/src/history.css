@@ -89,3 +89,7 @@
 #app{--mono:var(--cond)}
 .syncline{font-family:var(--cond);font-size:13px;font-weight:500;letter-spacing:0;text-transform:none}
 .syncline b{font-weight:700}
+/* The Hickey logo is a cream badge: a bit bigger than the UNH cat, centered on the name */
+.band .headline{align-items:center}
+.band .headline img{width:64px;margin-bottom:0}
+@media (max-width:420px){.band .headline img{width:52px}}

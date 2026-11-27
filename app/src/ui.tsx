@@ -6,8 +6,10 @@ import type { EventDoc } from './lib/types';
 import { DEMO_KINDS } from './api/demokinds';
 import { S, emit } from './state';
 
-/** The event's picture: the exec's own upload, or none (the default). */
-export const logoOf = (e: Pick<EventDoc, 'logo' | 'logoImg'>) => (e.logo !== 'none' && e.logoImg ? e.logoImg : '');
+import hickeyLogo from './logo.webp';
+/** The event's picture: the Hickey Tournament logo (default), the exec's own upload, or none. */
+export const logoOf = (e: Pick<EventDoc, 'logo' | 'logoImg'>) => (e.logo === 'none' ? '' : e.logo === 'custom' && e.logoImg ? e.logoImg : hickeyLogo);
+export const HICKEY_LOGO = hickeyLogo;
 
 export function Header({ children }: { children: ComponentChildren }) {
   return <header class="band"><div class="wrap">{children}</div></header>;

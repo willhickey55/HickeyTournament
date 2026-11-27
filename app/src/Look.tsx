@@ -3,10 +3,10 @@ import { editEvent, saveEvent } from './actions';
 import { EventBand } from './Boards';
 import { cleanHex } from './lib/look';
 import { E, toast } from './state';
-import { Header, SecHead } from './ui';
+import { HICKEY_LOGO, Header, SecHead } from './ui';
 
 /* Header colors to pick from; any other color works with the color picker. */
-const MAIN: [string, string][] = [['#14532d', 'Green (standard)'], ['#041e42', 'Navy'], ['#003594', 'Blue'], ['#000000', 'Black'], ['#8b0000', 'Dark red'], ['#c8102e', 'Red'], ['#1b5e20', 'Green'], ['#4a148c', 'Purple'], ['#bbbcbc', 'Gray'], ['#f2c75c', 'Gold']];
+const MAIN: [string, string][] = [['#1f4d3a', 'Logo green (standard)'], ['#13233f', 'Logo navy'], ['#041e42', 'Navy'], ['#003594', 'Blue'], ['#000000', 'Black'], ['#8b0000', 'Dark red'], ['#c8102e', 'Red'], ['#1b5e20', 'Green'], ['#4a148c', 'Purple'], ['#bbbcbc', 'Gray'], ['#f2c75c', 'Gold']];
 
 /** Shrink a picture on the phone to at most 240 px, so it fits in the event (and loads fast). */
 export async function shrinkImage(file: File, max = 240): Promise<string> {
@@ -49,11 +49,12 @@ export function Look() {
 
       <div class="field"><label>Picture next to the name</label>
         <div class="logopick">
-          {e.logo !== 'none' && e.logoImg ? <img src={e.logoImg} alt="Your picture" /> : null}
-          {e.logoImg ? <div class="seg2" role="group">
-            <button class={e.logo !== 'none' ? 'on' : ''} onClick={() => saveEvent({ logo: 'custom' })}>Show it</button>
+          {e.logo === 'none' ? null : <img src={e.logo === 'custom' && e.logoImg ? e.logoImg : HICKEY_LOGO} alt="" />}
+          <div class="seg2" role="group">
+            <button class={e.logo !== 'none' && e.logo !== 'custom' ? 'on' : ''} onClick={() => saveEvent({ logo: 'hickey' })}>Hickey logo</button>
+            {e.logoImg ? <button class={e.logo === 'custom' ? 'on' : ''} onClick={() => saveEvent({ logo: 'custom' })}>Yours</button> : null}
             <button class={e.logo === 'none' ? 'on' : ''} onClick={() => saveEvent({ logo: 'none' })}>None</button>
-          </div> : null}
+          </div>
           <label class="btn filebtn">{e.logoImg ? 'Upload another' : 'Upload your own'}<input type="file" accept="image/*" onChange={onFile} aria-label="Upload a picture" /></label>
         </div>
         <small class="note">PNG with a see-through background looks best. It’s shrunk to a small size on your phone.</small></div>

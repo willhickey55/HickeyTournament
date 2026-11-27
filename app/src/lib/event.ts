@@ -31,7 +31,7 @@ export const DEFAULT_EVENT: EventDoc = {
   name: 'The Hickey Tournament', date: '', course: 'Crosswinds Golf Club', holes: 18, pars: PARS18, format: 'scramble', colorA: 'royal', colorB: 'white',
   countN: 2, countMode: 'hole', showIndividual: true, skinsCarry: true, sideA: 'Team Blue', sideB: 'Team White',
   visibility: 'live', revealAt: 0, show: 'full', codes: false, messaging: true, locked: false, listed: true, createdAt: 0,
-  eyebrow: 'Hickey Tournament', bandColor: '#14532d', logo: 'none',
+  eyebrow: 'Hickey Tournament', bandColor: '#1f4d3a', logo: 'hickey',
 };
 
 /** The event with every missing field filled in. */

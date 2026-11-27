@@ -5,7 +5,7 @@ import { entryToForm, formToEntry, marginText, records, scoreText, teamLabel, ty
 import { fmtDate } from './lib/time';
 import { ALL_ROUTES } from './lib/courses';
 import { E, S, emit, toast } from './state';
-import { Confirm, Foot, Header, SecHead, ViewSwitch } from './ui';
+import { Confirm, Foot, Header, SecHead, ViewSwitch, logoOf } from './ui';
 
 const editing = () => S.canOrg && !S.asPlayer;
 
@@ -16,7 +16,7 @@ export function HistoryPage() {
     <>
       <Header>
         <div class="toprow"><div class="eyebrow">{E().eyebrow || ''}</div><span class="hdr-r"><ViewSwitch /></span></div>
-        <div class="headline"><h1 class="evname">History</h1></div>
+        <div class="headline">{logoOf(E()) ? <img src={logoOf(E())} alt="" /> : null}<h1 class="evname">History</h1></div>
         <p class="fmtline">{r.years ? `${r.years} ${r.years === 1 ? 'tournament' : 'tournaments'} · since ${first}` : 'Every champion, every year'}</p>
       </Header>
       <main><div class="wrap h-wrap">

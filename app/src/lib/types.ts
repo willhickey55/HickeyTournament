@@ -41,7 +41,7 @@ export interface EventDoc {
   tagline?: string;          // optional line under the name
   tabTitle?: string;         // browser tab title (default: the event name)
   bandColor?: string;        // main color: header, your-group card, footer. #rrggbb ('' = navy)
-  logo?: 'wildcat' | 'none' | 'custom';
+  logo?: 'hickey' | 'wildcat' | 'none' | 'custom';
   logoImg?: string;          // data URL for logo 'custom' (shrunk on the phone)
 }
 

@@ -40,6 +40,8 @@ Read this first, then README.md.
 - Vercel Web Analytics isn't on for this project, so /_vercel/insights/script.js 404s (harmless). Turn it on in Vercel
   if Will wants visit counts.
 - Still to do (Will): sign in as exec once (creates events/current with the defaults), add past years on /history.
+- Logo (Nov 26): Will's Hickey Family Tournament logo (cream badge, navy + green #1f4d3a). site/img: icon-64/180/192,
+  preview.jpg (link preview); app/src/logo.webp = header badge, Look tab "Hickey logo" (event logo 'hickey', the default).
 - Preview (example data): https://claude.ai/artifact/1fgg4zd88MTeVmzN3BZw3g
 - Crosswinds (Nov 26): the tournament is always at Crosswinds Golf Club (Plymouth, MA), 27 holes in three nines (Jones,
   Ouimet, Zaharias, par 36 each). `lib/courses.ts` (pars from Will's will-golf-stats course doc) + `CrosswindsPick` at the
