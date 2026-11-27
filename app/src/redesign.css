@@ -1,0 +1,93 @@
+/* Redesign (Will, Nov 26; draft https://claude.ai/artifact/Qjt7MCWX4VHWeEJocyB3dG): white page, the logo's navy for
+   text, buttons and cards, light gray fills, Libre Caslon for names, scores and headings, Source Sans for text.
+   No green outside the logo. Public screens only (html:not(.exec)); exec screens keep their plain look apart from the
+   fonts. Loaded last. Rules from the Hallmark / Impeccable floors: no tracked capitals, no eyebrows, no hard offset
+   shadows, no one-sided bars. */
+
+#app{
+  --display:"Libre Caslon Text",Georgia,"Times New Roman",serif;
+  --cond:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --k-disp:var(--display);--k-text:var(--cond);
+  --navy:#13233f;--mut:#555d6b;--line:#e3e5e9;--fill:#f4f4f4;
+}
+/* the event's own colour (Look tab) no longer paints the public pages: the header is white, cards and the scoring
+   band are navy */
+html:not(.exec) #app{
+  --band:#13233f !important;--onband:#ffffff !important;--bandmuted:#c8cfdb !important;--bandrule:rgba(255,255,255,.35) !important;
+  --ink:#13233f;--muted:#555d6b;--rule:#e3e5e9;--panel:#f4f4f4;--ground:#ffffff;
+  --sc-band:#13233f;--sc-onband:#ffffff;--k-royal:#13233f;--k-navy:#13233f;--royal:#13233f;
+}
+html:not(.exec) .sc-hd{border-bottom:0}
+html:not(.exec) body{background:#fff;color:var(--navy)}
+html:not(.exec) ::selection{background:#dfe4ec;color:var(--navy)}
+
+/* type: Caslon has 400 and 700; nothing in capitals or letter-spaced */
+html:not(.exec) :is(.evname,.sechead h2,.sc-h1,.sc-plate b,.sc-turn b,.sc-sech,.sc-th>b,.sc-ch b,.sc-hwt b,.sc-dt,.sc-locked b,.pick-cta b,.h-champ h3,.h-last b){
+  font-family:var(--display);font-weight:700;text-transform:none;letter-spacing:0}
+html:not(.exec) :is(.lbl,.sub,.eyebrow,.field label,.card h3,.sechead small,.chip,.mnum,.teamtag){text-transform:none;letter-spacing:0;font-family:var(--cond)}
+html:not(.exec) .sechead{border-bottom:0;padding-top:28px}
+html:not(.exec) .sechead h2{font-size:26px}
+
+/* header */
+.hh{background:#fff;color:var(--navy)}
+.hh .wrap{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:26px;padding-bottom:8px;position:relative}
+.hh-logo{width:220px;height:auto;display:block;margin-bottom:12px}
+.hh-name{font-family:var(--display);font-weight:700;font-size:34px;line-height:1.05;margin:0 0 8px}
+.hh-date{margin:0;font-size:17px;font-weight:700}
+.hh-course{margin:2px 0 0;font-size:15px;color:var(--mut)}
+.hh-exec{position:absolute;top:10px;right:16px}
+.hh-exec .ghost{color:var(--navy);border-color:#c9ced8}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hh-hist .wrap{align-items:flex-start;text-align:left}
+.hh-row{display:flex;align-items:center;gap:16px}
+.hh-logo.sm{width:104px;margin:0}
+.hh-title{font-family:var(--display);font-weight:700;font-size:38px;line-height:1;margin:0}
+
+/* the two pages as pills */
+.sitenav.pills{background:none;border:0}
+html .hh .sitenav.pills .wrap{flex-direction:row;align-items:center;justify-content:center;gap:6px;padding:18px 0 10px}
+html .hh-hist .sitenav.pills .wrap{justify-content:flex-start}
+.sitenav.pills a,.sitenav.pills a:first-child{margin:0;height:44px;min-height:44px;padding:0 20px;border-radius:999px;border:1.5px solid #c9ced8;color:var(--navy);font-weight:700;font-size:15px}
+.sitenav.pills a.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.sitenav.pills a:hover:not(.on){border-color:var(--navy)}
+.sitenav.pills a:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+
+/* your group / team card and the find-your-group button */
+html:not(.exec) :is(.mine-card,.pick-cta){background:var(--navy);color:#fff;border-radius:16px;clip-path:none}
+html:not(.exec) .mine-card .lbl{color:#c8cfdb;font-size:14px;font-weight:600}
+html:not(.exec) .btn.primary{background:var(--navy);border-color:var(--navy);color:#fff;border-radius:12px}
+html:not(.exec) .mine-card .btn.primary,html:not(.exec) .mine-card .btn.primary.big{background:#fff;color:var(--navy);border:0;box-shadow:0 3px 8px rgba(0,0,0,.3);transition:transform .12s ease-out,box-shadow .12s ease-out}
+html:not(.exec) .mine-card .btn.primary:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(0,0,0,.3)}
+html:not(.exec) .mine-card .btn.primary:active{transform:translateY(1px);box-shadow:0 1px 3px rgba(0,0,0,.3)}
+@media (prefers-reduced-motion:reduce){html:not(.exec) .mine-card .btn.primary{transition:none}}
+
+/* leaderboard: navy outline, gray head row, your row in gray, names and scores in Caslon */
+html:not(.exec) .lb{border:1.5px solid var(--navy);border-radius:14px;overflow:hidden;box-shadow:none}
+html:not(.exec) .lbrow{border-bottom:1px solid var(--line);padding:14px 14px}
+html:not(.exec) .lbrow:last-child{border-bottom:0}
+html:not(.exec) .lbrow.head{background:var(--fill);padding-block:10px;border-bottom:0}
+html:not(.exec) .lbrow.head span{font-size:13px;color:var(--mut)}
+html:not(.exec) .lbrow.me{background:var(--fill);box-shadow:none}
+html:not(.exec) .lbrow .pos{font-family:var(--display);font-weight:700;font-size:24px}
+html:not(.exec) .lbrow .num{font-family:var(--display);font-weight:700;font-size:24px;color:var(--navy)}
+html:not(.exec) .lbrow .nm{font-size:17px}
+html:not(.exec) .lbrow .sm{color:var(--mut)}
+html:not(.exec) .syncline{color:var(--mut)}
+html:not(.exec) .syncline i{display:none}
+html:not(.exec) .syncline b{color:var(--navy)}
+
+/* footer: plain, on white */
+html:not(.exec) .foot{background:#fff;color:var(--mut);border-top:0}
+html:not(.exec) .foot .link{color:var(--mut)}
+
+/* History */
+html:not(.exec) .h-card.hero{background:var(--navy)}
+html:not(.exec) .h-card:not(.hero){border:1.5px solid var(--navy);box-shadow:none}
+html:not(.exec) .h-block{border-top:1px solid #dddddd}
+html:not(.exec) .h-block:first-of-type{border-top:0}
+html:not(.exec) .h-rec{background:var(--fill);border-radius:16px;padding:20px}
+html:not(.exec) .h-rec .sechead{padding-top:0}
+html:not(.exec) .h-last{background:var(--fill);border:0}
+html:not(.exec) .h-last:hover{background:#ececec}
+html:not(.exec) .h-year,html:not(.exec) .h-score,html:not(.exec) .h-pos,html:not(.exec) .h-fs,html:not(.exec) .h-titles b,html:not(.exec) .h-block .h-big{font-family:var(--display);font-weight:700}
+@media (min-width:1024px){html .hh-hist .wrap{max-width:1120px}}

@@ -48,3 +48,13 @@ Read this first, then README.md.
   top of Settings → Round: pick the front and back nine on the day, course name ("Crosswinds · Jones / Ouimet") and pars
   fill in. Default course "Crosswinds Golf Club" with nothing picked. Tapping a picked nine un-picks it (Will, Nov 26):
   its holes keep their pars; "Crosswinds · back nine X" when only the back is picked. History editor suggests the six routes.
+
+## Redesign (Nov 26, branch `redesign`; draft canvas https://claude.ai/artifact/Qjt7MCWX4VHWeEJocyB3dG)
+- Will's picks: white page, logo's navy (#13233f) for text/buttons/cards, light gray fills (#f4f4f4), NO green outside the
+  logo, Libre Caslon Text (names, scores, headings) + Source Sans 3 (text). Built with the Hallmark + Impeccable floors in
+  mind: no tracked capitals, no eyebrows, no middle-dot meta strings, no hard offset shadows, no decorative status dots.
+- `Head.tsx`: `HomeHead` (see-through logo `logo-clear.png` centered, "Saturday, June 12", "Crosswinds, Jones and Ouimet
+  nines" from `courseLine`, Leaderboard/History pills = `SiteNav pills`) and `HistoryHead`. The exec strip nav only shows
+  in the exec view of the live page. `redesign.css` (imported last): public screens only (`html:not(.exec)`) except the
+  fonts; forces --band navy over the Look tab colour on public screens, so the Look tab's main colour now only shows to
+  the exec. Scoring screens: same fonts and navy (`--k-royal` -> navy), layout unchanged.

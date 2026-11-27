@@ -3,9 +3,10 @@ import { useEffect, useState } from 'preact/hooks';
 import { deleteHistory, goPage, loadHistPhoto, saveHistory, setHistPhoto } from './actions';
 import { entryToForm, formToEntry, marginText, records, scoreText, teamLabel, type HistForm, type HistoryEntry } from './lib/history';
 import { fmtDate } from './lib/time';
+import { HistoryHead } from './Head';
 import { ALL_ROUTES } from './lib/courses';
-import { E, S, emit, toast } from './state';
-import { Confirm, Foot, Header, SecHead, ViewSwitch, logoOf } from './ui';
+import { S, emit, toast } from './state';
+import { Confirm, Foot, Header, SecHead } from './ui';
 
 const editing = () => S.canOrg && !S.asPlayer;
 
@@ -14,11 +15,7 @@ export function HistoryPage() {
   if (S.histEdit && editing()) return <HistEditor id={S.histEdit} />;
   return (
     <>
-      <Header>
-        <div class="toprow"><div class="eyebrow">{E().eyebrow || ''}</div><span class="hdr-r"><ViewSwitch /></span></div>
-        <div class="headline">{logoOf(E()) ? <img src={logoOf(E())} alt="" /> : null}<h1 class="evname">History</h1></div>
-        <p class="fmtline">{r.years ? `${r.years} ${r.years === 1 ? 'tournament' : 'tournaments'} · since ${first}` : 'Every champion, every year'}</p>
-      </Header>
+      <HistoryHead years={r.years} first={first} />
       <main><div class="wrap h-wrap">
         {!S.histReady ? <div class="skpage" role="status" aria-label="Loading"><span class="sk big" /><span class="sk row" /><span class="sk row" /></div>
           : <div class="h-cols">
@@ -43,7 +40,7 @@ function Photo({ e }: { e: HistoryEntry }) {
 }
 
 function Champion({ e, hero }: { e: HistoryEntry; hero?: boolean }) {
-  const c = e.champ, where = [e.date ? fmtDate(e.date) : '', e.course].filter(Boolean).join(' · '), sc = scoreText(c);
+  const c = e.champ, where = [e.date ? fmtDate(e.date) : '', e.course].filter(Boolean).join(', '), sc = scoreText(c);
   const names = c.name && c.players?.length ? c.players.join(', ') : '';
   return (
     <article class={'h-card' + (hero ? ' hero' : '')}>
@@ -81,7 +78,7 @@ function Records({ list }: { list: HistoryEntry[] }) {
 export function LastChamps() {
   const e = S.history[0]; if (!e) return null;
   return <button class="h-last" onClick={() => goPage('history')}><span class="lbl">{e.year} champions</span><b>{teamLabel(e.champ)}</b>
-    {e.champ.name && e.champ.players?.length ? <small>{e.champ.players.join(', ')}</small> : null}<span class="h-more">All past champions →</span></button>;
+    {e.champ.name && e.champ.players?.length ? <small>{e.champ.players.join(', ')}</small> : null}<span class="h-more">See every past champion</span></button>;
 }
 
 /* ---------- exec editor ---------- */

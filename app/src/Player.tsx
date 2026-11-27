@@ -1,6 +1,6 @@
 /* Player side of an event (phone-first): your group/match, keeping score, the leaderboard. */
 import { claimScoring, flushScores, joinGroup, wake } from './actions';
-import { Boards, CardStat, ContestLines, EventBand, Pair, Scorecard } from './Boards';
+import { Boards, CardStat, ContestLines, Pair, Scorecard } from './Boards';
 import { fmtOf, isRyder, oneBall, sideName } from './lib/event';
 import { byOrder, cardLabel, contestsOf, fmtPar, groupDone, line, mNames, roundOf, mstatus, unitsIn } from './lib/scoring';
 import { dayPhase, fmtDate, liveNow } from './lib/time';
@@ -9,6 +9,7 @@ import { C, E, S, emit, groupById, iScore, scorersOf } from './state';
 import { Back, CodeInput, Confirm, Foot, Header, Lock, SecHead, Seg } from './ui';
 import { CardScoring, MatchScoring, Scoring } from './Scoring';
 import { LastChamps } from './History';
+import { HomeHead } from './Head';
 
 const go = (v: typeof S.view) => { flushScores(); S.view = v; S.review = false; S.confirm = null; emit(); window.scrollTo(0, 0); };
 
@@ -23,7 +24,7 @@ export function PlayerEvent() {
   }
   return (
     <>
-      <Header><EventBand /></Header>
+      <HomeHead />
       <main><div class="wrap event-results">{!S.evReady ? <div class="skpage" role="status" aria-label="Loading"><span class="sk big" /><span class="sk title" /><span class="sk row" /><span class="sk row" /><span class="sk row" /></div> : !S.ev ? <><Lock title="This year’s tournament isn’t set up yet">Check back closer to June.</Lock><LastChamps /></> : <>{lateFind() ? null : <MyCard />}<Boards orgView={false} />{lateFind() ? <MyCard /> : null}<LastChamps /></>}</div></main>
       <Foot />
     </>

@@ -19,6 +19,7 @@ import { E, S, emit, pageReady, useApp } from './state';
 import { DemoBar, Loading, OfflineBar, Toast, Pops, SiteNav } from './ui';
 import { HistoryPage } from './History';
 import './history.css';
+import './redesign.css';
 import { markExec, useScreen } from '../../shared/motion';
 
 const root = document.getElementById('app')!;
@@ -54,7 +55,7 @@ function App() {
     <>
       <DemoBar />
       <OfflineBar />
-      {scoring || (hist && S.histEdit) ? null : <SiteNav />}
+      {scoring || hist || !S.org ? null : <SiteNav />}
       {hist ? <HistoryPage /> : !pageReady() ? <Loading /> : S.org ? <OrgEvent /> : <PlayerEvent />}
       <Pops />
       {submission.busy || submission.error ? <div class="submission-banner" role="status" onClick={() => { submission.error = ''; emit(); }}>{submission.error || (S.online ? 'Submitting… waiting for confirmation. Keep this page open.' : 'Waiting for connection to submit. Keep this page open.')}</div> : null}<Toast />
