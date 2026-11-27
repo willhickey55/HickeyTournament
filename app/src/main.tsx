@@ -16,7 +16,7 @@ import { lightBand, themeVars } from './lib/look';
 import { OrgEvent } from './Org';
 import { PlayerEvent } from './Player';
 import { E, S, emit, pageReady, useApp } from './state';
-import { DemoBar, Loading, OfflineBar, Toast, Pops, SiteNav } from './ui';
+import { DemoBar, Loading, OfflineBar, Toast, Pops } from './ui';
 import { HistoryPage } from './History';
 import './history.css';
 import './redesign.css';
@@ -50,12 +50,10 @@ function App() {
   markExec(!!S.org);
   const hist = S.page === 'history';
   useScreen(!pageReady() || (S.org && !hist) ? '' : hist ? 'history' + (S.histEdit ? ':e' : '') : v, hist ? (S.histEdit ? 1 : 0) : v === 'home' ? 0 : v === 'score' ? 2 : 1, v === 'score' && !hist ? S.hole : null);
-  const scoring = !hist && v === 'score' && !S.org;
   return (
     <>
       <DemoBar />
       <OfflineBar />
-      {scoring || hist || !S.org ? null : <SiteNav />}
       {hist ? <HistoryPage /> : !pageReady() ? <Loading /> : S.org ? <OrgEvent /> : <PlayerEvent />}
       <Pops />
       {submission.busy || submission.error ? <div class="submission-banner" role="status" onClick={() => { submission.error = ''; emit(); }}>{submission.error || (S.online ? 'Submitting… waiting for confirmation. Keep this page open.' : 'Waiting for connection to submit. Keep this page open.')}</div> : null}<Toast />

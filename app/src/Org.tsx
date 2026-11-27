@@ -6,7 +6,7 @@ import {
   removeAdmin, removePlayer, renamePlayer, reopenGroup, resetPhones, resetScorers, saveCourse, saveEvent, setCardHole, setHole, setMatchHole,
   setMatchPlayer, setPar, saveYearToHistory, goPage, setPlayer, setStatus, startNewEvent, teamsFromGroups, updateGroup, useSavedCourse,
 } from './actions';
-import { Boards, EventBand, MatchList, Scorecard } from './Boards';
+import { Boards, MatchList, Scorecard } from './Boards';
 import { OWNER_EMAIL, SITE } from './config';
 import { Look } from './Look';
 import { sharePairings, shareResults } from './share';
@@ -17,6 +17,7 @@ import type { EventDoc, FormatKey, Group, MatchLayout, MatchResult, MatchType, T
 import { C, E, S, emit, groupById, scorersOf, EVENT_PATH, teamById, toast, unitById, type Tab } from './state';
 import { Back, Confirm, Foot, Header, Lock, Picker, SecHead, Seg, Switch } from './ui';
 import { NINE_NAMES, crosswinds, ninesOf } from './lib/courses';
+import { HomeHead } from './Head';
 
 export function OrgEvent() {
   if (S.view === 'edit') return isRyder(E()) ? <EditMatch /> : <EditUnit />;
@@ -25,7 +26,7 @@ export function OrgEvent() {
   const Body = { board: OrgBoard, field: Field, groups: ryder ? Matches : Groups, scores: OrgScores, look: Look, settings: Settings }[S.tab] || OrgBoard;
   return (
     <>
-      <Header><EventBand /></Header>
+      <HomeHead />
       <main><div class="wrap">
         <nav class="tabs" aria-label="Exec sections">{tabs.map(([k, l]) => <button class={S.tab === k ? 'on' : ''} onClick={() => { S.tab = k; S.view = 'home'; S.confirm = null; emit(); }}>{l}</button>)}</nav>
         {S.evReady && !S.ev ? <Lock title="No event loaded">Check your signal. If this is a brand-new site, the event is made as soon as you’re online.</Lock> : <Body />}
@@ -35,7 +36,7 @@ export function OrgEvent() {
   );
 }
 
-export const linkOf = () => SITE + EVENT_PATH;
+export const linkOf = () => SITE + (EVENT_PATH === '/' ? '' : EVENT_PATH);
 function copyLink() {
   const link = linkOf();
   (navigator.clipboard ? navigator.clipboard.writeText(link) : Promise.reject()).then(() => toast('Link copied')).catch(() => toast('Press and hold the link to copy it'));

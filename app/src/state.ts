@@ -130,4 +130,4 @@ export const scorersOf = (g: Group | undefined) => (Array.isArray(g && g.scorers
 export const iScore = (gid: string | null) => !!gid && !E().locked && scorersOf(groupById(gid)).includes(S.uid) && !groupById(gid)?.submitted;
 export const P = (path: string) => 'events/' + S.eid + '/' + path;
 /** The event's link (the home page's Team event button points here too). */
-export const EVENT_PATH = '/event';
+export const EVENT_PATH = '/';
