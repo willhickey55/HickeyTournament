@@ -135,7 +135,7 @@ function NineCard({ units }: { units: Unit[] }) {
   const rel = (l: ReturnType<typeof line>) => stab ? `${l.pts} pts` : fmtPar(l.rel);
   return <div class="ncard">{nines.map(([a, b, lab], i) => {
     const hs = Array.from({ length: b - a + 1 }, (_, k) => a + k), last = i === nines.length - 1, more = last;
-    return <table class={'sc9' + (units.some(isTeam) ? ' teams' : '')}>
+    return <table class={'sc9' + (units.some(isTeam) ? ' tms' : '')}>
       <thead><tr><th class="nm">Hole</th>{hs.map(h => <th>{h}</th>)}<th class="sub">{lab}</th>{more ? <th class="sub">{backOn ? 'Tot' : stab ? 'Pts' : '±'}</th> : null}</tr></thead>
       <tbody>
         <tr class="par"><td class="nm">Par</td>{hs.map(h => <td>{parOf(e, h)}</td>)}<td class="sub">{parSum(a, b)}</td>{more ? <td class="sub">{backOn ? parSum(1, n) : ''}</td> : null}</tr>

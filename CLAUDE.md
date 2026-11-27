@@ -59,5 +59,10 @@ Read this first, then README.md.
   fonts; forces --band navy over the Look tab colour on public screens, so the Look tab's main colour now only shows to
   the exec. Scoring screens: same fonts and navy (`--k-royal` -> navy), layout unchanged.
 - No team names (Will, Nov 26): `nameTeams()` in state.ts (runs in every `emit()`) sets each team's `name` to its
-  players ("A, B & C"); the stored name ("Team 1") is kept as `base` and shows only while a team is empty. The exec's
+  players' first names ("Alex, Jake & Tom"; a shared first name gets the last initial); the stored name ("Team 1") is kept as `base` and shows only while a team is empty. The exec's
   team-name boxes are gone. History: no team-name fields; `teamLabel` = the players; "Repeat team champions" removed.
+- One team (3 or 4 players) per tee time (Will, Nov 26): MyCard says "Your team" and "Your scorecard" when the group holds
+  exactly one team. Exec: Groups by tee time, then Field → "Make each group a team". Demo "Scramble" = 4 teams of 3.
+- Scoring screen has a leaderboard under the hole grid (`MiniBoard` in Scoring.tsx; hidden while the board is hidden).
+- Fixed: the player scorecard's `table.sc9.teams` picked up base.css `.teams{display:grid}` (laptop layout broke);
+  the class is `tms` now. The same bug is likely in unh-golf events-app (not changed there).

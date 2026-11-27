@@ -146,6 +146,7 @@ export function demoApi(): Api & { setUser(u: User): void; load(kind: DemoKind):
     const fmt = (kind === 'split' ? 'bestball' : kind) as EventDoc['format'], ob = kind === 'scramble' || kind === 'altshot';
     const label = DEMO_KINDS.find(k => k[0] === kind)![1];
     db['events/current'] = { ...DEFAULT_EVENT, name: 'Example ' + label, date: today, format: fmt, ...(kind === 'split' ? { format2: 'scramble' } : {}), countN: 2, createdAt: 5 } as EventDoc;
+    if (kind === 'scramble') { seedFamily(today); return; }
     const names = ['Alex Ruiz', 'Jake Miller', 'Sam Okafor', 'Ben Carter', 'Chris Park', 'Matt Doyle', 'Jordan Lee', 'Ryan Torres']; // the event name says Example
     const teamOf = (i: number) => (kind === 'team' ? 't' + (i < 4 ? 1 : 2) : 't' + (Math.floor(i / 2) + 1));
     const teamIds = kind === 'team' ? ['t1', 't2'] : ['t1', 't2', 't3', 't4'];
@@ -160,6 +161,20 @@ export function demoApi(): Api & { setUser(u: User): void; load(kind: DemoKind):
     const upto = kind === 'stroke' ? 17 : 5;
     if (ob) teamIds.forEach((id, i) => { const holes: Record<string, number> = {}; for (let h = 1; h <= upto; h++) holes['h' + h] = PARS18[h - 1] + offs[i][h - 1]; db['events/current/scores/' + id] = { groupId: i < 2 ? 'g1' : 'g2', holes }; });
     else names.forEach((_, i) => { const holes: Record<string, number> = {}; for (let h = 1; h <= upto; h++) holes['h' + h] = PARS18[h - 1] + offs[i % 4][(h - 1 + i) % 17]; db['events/current/scores/p' + (i + 1)] = { groupId: i < 4 ? 'g1' : 'g2', holes }; });
+    db['events/current/members/demo-me'] = { groupId: 'g1' };
+  }
+  /* The Hickey Tournament's real shape (Will, Nov 26): 4 teams of 3, one team per tee time, scramble. */
+  function seedFamily(today: string) {
+    db['events/current'] = { ...DEFAULT_EVENT, name: 'Example Scramble', date: today, format: 'scramble', createdAt: 5 } as EventDoc;
+    const names = ['Alex Ruiz', 'Jake Miller', 'Tom Ruiz', 'Sam Okafor', 'Ben Carter', 'Lily Okafor', 'Chris Park', 'Matt Doyle', 'Grace Park', 'Jordan Lee', 'Ryan Torres', 'Emma Lee'];
+    const tees = ['9:00 AM', '9:10 AM', '9:20 AM', '9:30 AM'];
+    db['events/current/roster/main'] = {
+      players: Object.fromEntries(names.map((name, i) => ['p' + (i + 1), { name, groupId: 'g' + (Math.floor(i / 3) + 1), teamId: 't' + (Math.floor(i / 3) + 1), side: '', order: i, status: '' }])),
+      teams: Object.fromEntries([1, 2, 3, 4].map(k => ['t' + k, { name: 'Team ' + k, groupId: 'g' + k, order: k }])),
+    };
+    tees.forEach((tee, i) => { db['events/current/groups/g' + (i + 1)] = { name: 'Group ' + (i + 1), tee, start: 1, scorers: i === 0 ? ['demo-me'] : ['x'], submitted: false, order: i }; });
+    const offs = [[0, -1, 0, 0, -1, 0, -1, 0, 0, -1], [-1, 0, 0, -1, 0, 0, 0, -1, 0], [0, 0, -1, 0, 0, 1, 0, 0, -1], [0, 0, 0, 0, 1, 0, 0, 0]];
+    offs.forEach((o, i) => { const holes: Record<string, number> = {}; o.forEach((d, h) => { holes['h' + (h + 1)] = PARS18[h] + d; }); db['events/current/scores/t' + (i + 1)] = { groupId: 'g' + (i + 1), holes }; });
     db['events/current/members/demo-me'] = { groupId: 'g1' };
   }
   seed('scramble');

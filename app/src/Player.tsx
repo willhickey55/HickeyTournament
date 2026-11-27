@@ -78,18 +78,19 @@ function MyCard() {
       <NextRound g={g} /></>
     );
   }
-  const us = unitsIn(c, g.id), sc = scorersOf(g), mine = sc.includes(S.uid), others = sc.filter(u => u !== S.uid).length, stab = fmtOf(e) === 'stableford';
+  // the family tournament plays one team per tee time (Will, Nov 26): then the card is "Your team"
+  const us = unitsIn(c, g.id), one = us.length === 1 && !!S.teams.find(t => t.id === us[0].id), sc = scorersOf(g), mine = sc.includes(S.uid), others = sc.filter(u => u !== S.uid).length, stab = fmtOf(e) === 'stableford';
   return (
     <>
       <div class="mine-card">
-        <div class="toprow"><span class="lbl">Your group · {g.name}</span><span class="lbl">{where}</span></div>
+        <div class="toprow"><span class="lbl">{one ? 'Your team' : 'Your group, ' + g.name}</span><span class="lbl">{where}</span></div>
         <div style="display:flex;flex-direction:column;gap:2px">{us.map(u => {
           const l = line(c, u);
           return <div class="toprow" style="font-weight:600"><span>{u.name}</span><span style="font-family:var(--display);font-size:20px">{l.thru ? <>{stab ? l.pts + ' pts' : fmtPar(l.rel)} <span style="font-size:13px;color:var(--bandmuted);font-family:var(--cond)">{l.done ? 'F' : 'thru ' + l.thru}</span></> : '—'}</span></div>;
         })}</div>
         <ScorerButton g={g} start="Enter scores" done="Review and submit scores" />
       </div>
-      <SecHead title="Group scorecard" small={mine ? (others ? `You + ${others} more scoring` : 'You’re scoring') : 'View only'} />
+ <SecHead title={one ? 'Your scorecard' : 'Group scorecard'} small={mine ? (others ? `You + ${others} more scoring` : 'You’re scoring') : 'View only'} />
       <Scorecard units={us} />
     </>
   );

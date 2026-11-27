@@ -91,3 +91,5 @@ html:not(.exec) .h-last{background:var(--fill);border:0}
 html:not(.exec) .h-last:hover{background:#ececec}
 html:not(.exec) .h-year,html:not(.exec) .h-score,html:not(.exec) .h-pos,html:not(.exec) .h-fs,html:not(.exec) .h-titles b,html:not(.exec) .h-block .h-big{font-family:var(--display);font-weight:800}
 @media (min-width:1024px){html .hh-hist .wrap{max-width:1120px}}
+/* leaderboard under the hole grid on the scoring screen */
+.sc-mini{margin-top:28px;display:flex;flex-direction:column;gap:10px}

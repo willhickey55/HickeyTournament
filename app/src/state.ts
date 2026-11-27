@@ -92,10 +92,19 @@ const subs = new Set<() => void>();
 export const joinNames = (ns: string[]) => (ns.length < 3 ? ns.join(' & ') : ns.slice(0, -1).join(', ') + ' & ' + ns[ns.length - 1]);
 /** No team names in the family tournament (Will, Nov 26): a team is shown as its players everywhere. The stored name
     ("Team 1") is kept as `base` and only shows while the team has nobody in it. Runs before every render. */
+/** First names: it's a family, most last names match. A first name two players share gets the last initial
+    ("Tom H."), and a name two players share entirely stays whole. */
+function shortName(n: string) {
+  const parts = n.trim().split(/\s+/), first = parts[0] || n;
+  const same = S.players.filter(p => (p.name.trim().split(/\s+/)[0] || '') === first);
+  if (same.length < 2 || parts.length < 2) return first;
+  const ini = first + ' ' + parts[parts.length - 1].charAt(0) + '.';
+  return same.filter(p => { const q = p.name.trim().split(/\s+/); return q[0] + ' ' + (q[q.length - 1] || '').charAt(0) + '.' === ini; }).length < 2 ? ini : n.trim();
+}
 export function nameTeams() {
   for (const t of S.teams as (Team & { base?: string })[]) {
     if (t.base === undefined) t.base = t.name;
-    const ps = S.players.filter(p => p.teamId === t.id && !p.status).sort((a, b) => (+(a.order || 0)) - (+(b.order || 0))).map(p => p.name);
+    const ps = S.players.filter(p => p.teamId === t.id && !p.status).sort((a, b) => (+(a.order || 0)) - (+(b.order || 0))).map(p => shortName(p.name));
     t.name = ps.length ? joinNames(ps) : t.base;
   }
 }
