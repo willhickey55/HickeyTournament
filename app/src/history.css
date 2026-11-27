@@ -1,0 +1,81 @@
+/* Site nav (live / history) and the History page. Classes start with h- or sitenav so they can't clash with the
+   shared CSS. Colors follow the event's main color (--band), set on the Look tab. */
+
+.sitenav{background:var(--band);color:var(--onband);border-bottom:1px solid var(--bandrule)}
+.sitenav .wrap{display:flex;gap:4px;padding-top:6px;padding-bottom:0}
+.sitenav a{color:var(--bandmuted);text-decoration:none;font-weight:600;font-size:14px;padding:10px 12px 11px;border-bottom:3px solid transparent;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center}
+.sitenav a:first-child{margin-left:-12px}
+.sitenav a.on{color:var(--onband);border-bottom-color:var(--onband)}
+.sitenav a:hover{color:var(--onband)}
+.sitenav a:focus-visible{outline:3px solid var(--onband);outline-offset:-3px}
+
+.h-wrap{padding-top:16px;padding-bottom:28px}
+.h-cols{display:flex;flex-direction:column;gap:28px}
+.h-main{display:flex;flex-direction:column;gap:14px;min-width:0}
+.h-list{display:flex;flex-direction:column;gap:12px}
+@media (min-width:1024px){
+  main .wrap.h-wrap{max-width:1120px}
+  .h-cols{display:grid;grid-template-columns:minmax(0,1fr) 340px;align-items:start;gap:36px}
+  .h-side{position:sticky;top:16px}
+}
+
+.h-card{background:var(--surface,#fff);border:1px solid var(--control-line,#d5d8dc);border-radius:6px;overflow:hidden;box-shadow:0 1px 2px rgba(4,30,66,.06)}
+.h-card.hero{border:0;background:var(--band);color:var(--onband);border-radius:8px}
+.h-photo{aspect-ratio:3/2;background:var(--panel);overflow:hidden}
+.h-card:not(.hero) .h-photo{aspect-ratio:16/9}
+.h-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.h-photo .sk{display:block;width:100%;height:100%}
+.h-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:4px}
+.h-card.hero .h-body{padding:20px 20px 22px}
+.h-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.h-year{font-family:var(--display);font-weight:900;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.h-card.hero .h-year{font-size:46px}
+.h-tag{font-size:13px;font-weight:600;color:var(--bandmuted)}
+.h-champ{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:6px}
+.h-champ h3{font-family:var(--display);font-weight:800;font-size:24px;line-height:1.05;text-transform:uppercase;margin:0;min-width:0;overflow-wrap:anywhere}
+.h-card.hero .h-champ h3{font-size:32px}
+.h-score{font-family:var(--display);font-weight:800;font-size:22px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.h-card.hero .h-score{font-size:28px}
+.h-players{margin:2px 0 0;font-weight:600;font-size:15px}
+.h-where,.h-note{margin:2px 0 0;font-size:14px;color:var(--muted)}
+.h-card.hero .h-where,.h-card.hero .h-note{color:var(--bandmuted)}
+.h-note{font-style:normal}
+.h-edit{margin-top:10px}
+.h-card.hero .h-edit .btn{background:transparent;color:var(--onband);border-color:var(--bandrule)}
+
+.h-field{margin-top:10px;border-top:1px solid var(--control-line,#d5d8dc);padding-top:8px}
+.h-card.hero .h-field{border-top-color:var(--bandrule)}
+.h-field summary{cursor:pointer;font-weight:600;font-size:14px;min-height:36px;display:flex;align-items:center}
+.h-field ol{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column}
+.h-field li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--control-line,#e3e5e8)}
+.h-card.hero .h-field li{border-bottom-color:var(--bandrule)}
+.h-field li:last-child{border-bottom:0}
+.h-pos{font-family:var(--display);font-weight:800;font-size:18px;font-variant-numeric:tabular-nums}
+.h-fn b{display:block;font-weight:600}
+.h-fn small{display:block;font-size:13px;color:var(--muted)}
+.h-card.hero .h-fn small{color:var(--bandmuted)}
+.h-fs{font-family:var(--display);font-weight:800;font-size:18px;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+.h-rec .sechead{padding-top:0}
+.h-block{border-top:2px solid var(--ink);padding:12px 0 14px}
+.h-block h4{margin:0 0 6px;font-size:14px;font-weight:700}
+.h-block p{margin:0;font-size:14px;color:var(--muted)}
+.h-titles{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.h-titles li{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;padding:6px 0;border-bottom:1px solid var(--control-line,#e3e5e8)}
+.h-titles li:last-child{border-bottom:0}
+.h-titles span{font-weight:600}
+.h-titles b{font-family:var(--display);font-weight:900;font-size:22px;line-height:1;grid-row:span 2;align-self:center}
+.h-titles small{font-size:12px;color:var(--muted)}
+
+.h-last{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;width:100%;margin-top:22px;padding:16px 18px;background:var(--surface,#fff);border:1px solid var(--control-line,#d5d8dc);border-radius:6px;color:var(--ink);cursor:pointer}
+.h-last:hover{border-color:var(--ink)}
+.h-last b{font-family:var(--display);font-weight:800;font-size:24px;text-transform:uppercase;line-height:1.05}
+.h-last small{font-size:14px;color:var(--muted)}
+.h-more{margin-top:6px;font-weight:600;font-size:14px;text-decoration:underline;text-underline-offset:3px}
+
+.h-frow{border:1px solid var(--control-line,#d5d8dc);border-radius:6px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.h-prev{width:100%;max-width:420px;border-radius:6px;display:block}
+.ferr{color:var(--danger);font-weight:600;margin:0}
+/* the UNH pages put a royal stripe under the header; this site follows its own main color instead */
+.band,.lightband .band{box-shadow:none}
+.h-block .h-big{font-family:var(--display);font-weight:900;font-size:34px;line-height:1;color:var(--ink);margin:0 0 4px;font-variant-numeric:tabular-nums}

@@ -1,0 +1,128 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function adminsPath() { return /databases/$(database)/documents/config/admins; }
+
+    // Organizers: the owner, plus any Google emails added in Settings.
+    function isOrg() {
+      return signedIn()
+        && request.auth.token.get('email', null) != null
+        && request.auth.token.get('email_verified', false) == true
+        && (request.auth.token.email.lower() == 'willhickey55@gmail.com'
+            || (exists(adminsPath()) && request.auth.token.email.lower() in get(adminsPath()).data.get('organizers', [])));
+    }
+
+    // config/admins (the organizer list) is private to organizers; other config (saved course) is public.
+    match /config/{doc} {
+      allow read: if doc != 'admins' || isOrg();
+      allow write: if isOrg();
+    }
+
+    // History page (/history): one doc per year, pictures kept apart so the page loads fast.
+    // Everyone can read; only the exec can edit.
+    match /history/{id} {
+      allow read: if true;
+      allow write: if isOrg();
+    }
+    match /histphotos/{id} {
+      allow read: if true;
+      allow write: if isOrg()
+        && request.resource.data.keys().hasOnly(['data'])
+        && request.resource.data.data is string
+        && request.resource.data.data.size() < 1000000;
+      allow delete: if isOrg();
+    }
+
+    match /events/{eid} {
+      allow read: if true;
+      allow write: if isOrg();
+
+      function ev() { return get(/databases/$(database)/documents/events/$(eid)).data; }
+      function revealed() {
+        return ev().get('visibility', 'live') in ['live', 'published']
+          || (ev().get('visibility', 'live') == 'scheduled'
+              && ev().get('revealAt', 0) > 0
+              && request.time.toMillis() >= ev().get('revealAt', 0));
+      }
+      function locked() { return ev().get('locked', false) == true; }
+      function mPath() { return /databases/$(database)/documents/events/$(eid)/members/$(request.auth.uid); }
+      function isMember() { return signedIn() && exists(mPath()); }
+      function myGroup() { return get(mPath()).data.groupId; }
+      function gDoc(gid) { return get(/databases/$(database)/documents/events/$(eid)/groups/$(gid)).data; }
+
+      match /groups/{gid} {
+        allow read: if true;
+        allow create, delete: if isOrg();
+        // Players add only themselves as a scorer while the group is open;
+        // any scorer can submit (lock). Only organizers can reopen.
+        allow update: if isOrg() || (
+          isMember() && !locked() && myGroup() == gid
+          && resource.data.get('submitted', false) != true
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['scorers'])
+          && !(request.auth.uid in resource.data.get('scorers', []))
+          && request.resource.data.scorers.hasAll(resource.data.get('scorers', []))
+          && request.auth.uid in request.resource.data.scorers
+          && request.resource.data.scorers.size() == resource.data.get('scorers', []).size() + 1
+        ) || (
+          isMember() && !locked() && myGroup() == gid
+          && request.auth.uid in resource.data.get('scorers', [])
+          && resource.data.get('submitted', false) != true
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['submitted', 'submittedAt'])
+          && request.resource.data.submitted == true);
+      }
+
+      // Players and teams live together in roster/main {players:{id:{}}, teams:{id:{}}} (one read per page load).
+      // The old players/teams docs stay readable so events made before the switch keep working until migrated.
+      match /roster/{doc}  { allow read: if true; allow write: if isOrg(); }
+      function rPath() { return /databases/$(database)/documents/events/$(eid)/roster/main; }
+      function rosterGroup(kind, id) {
+        return exists(rPath()) && get(rPath()).data.get(kind, {}).get(id, {}).get('groupId', '') == myGroup();
+      }
+      match /players/{pid} { allow read: if true; allow write: if isOrg(); }
+      match /teams/{tid}   { allow read: if true; allow write: if isOrg(); }
+      match /codes/{gid}   { allow read, write: if isOrg(); }
+
+      // Which group (or match) each phone joined. A code is required only when the event turns codes on.
+      match /members/{uid} {
+        // A phone joins a group (with its code when codes are on). It can also move itself to another
+        // group the same way, e.g. its Round 2 match, so the exec doesn't have to reset phones between rounds.
+        function joinOk() {
+          return signedIn() && request.auth.uid == uid
+            && request.resource.data.keys().hasOnly(['groupId', 'code', 'at'])
+            && request.resource.data.groupId is string
+            && exists(/databases/$(database)/documents/events/$(eid)/groups/$(request.resource.data.groupId))
+            && (ev().get('codes', false) != true
+                || request.resource.data.get('code', '') == get(/databases/$(database)/documents/events/$(eid)/codes/$(request.resource.data.groupId)).data.code);
+        }
+        allow read: if isOrg() || (signedIn() && request.auth.uid == uid);
+        allow create: if joinOk();
+        allow update: if isOrg() || joinOk();
+        allow delete: if isOrg();
+      }
+
+      // Scores: a player, a team (scramble / alternate shot), or a Ryder Cup match (keyed by its group id).
+      match /scores/{uid2} {
+        allow read: if isOrg() || revealed()
+          || (isMember() && resource.data.groupId == myGroup());
+        allow write: if isOrg() || (
+          isMember() && !locked()
+          && request.resource.data.groupId == myGroup()
+          && request.auth.uid in gDoc(myGroup()).get('scorers', [])
+          && gDoc(myGroup()).get('submitted', false) != true
+          && (uid2 == myGroup()
+              || rosterGroup('players', uid2)
+              || rosterGroup('teams', uid2)
+              || (exists(/databases/$(database)/documents/events/$(eid)/players/$(uid2))
+                  && get(/databases/$(database)/documents/events/$(eid)/players/$(uid2)).data.get('groupId', '') == myGroup())
+              || (exists(/databases/$(database)/documents/events/$(eid)/teams/$(uid2))
+                  && get(/databases/$(database)/documents/events/$(eid)/teams/$(uid2)).data.get('groupId', '') == myGroup()))
+          && request.resource.data.keys().hasOnly(['groupId', 'holes', 'updatedAt', 'by'])
+          && (resource == null || resource.data.groupId == myGroup()));
+      }
+
+
+    }
+  }
+}

@@ -1,0 +1,243 @@
+/* Polish layer (Oct 27): brings a little of the home page's look to /event, /tryouts, /scores and /league.
+   Loaded LAST by every app (after its own CSS), so it only restyles; no layout or behavior lives here.
+   Will's direction (Oct 27): liven up the parts people come for (scoreboards, score entry, tee time, group, ride),
+   keep everything else calm, and keep player names in a plain, very readable font.
+   Every page is always light (data-theme="light" on <html>), so no dark-mode rules here. */
+:root{--shadow:var(--royal)}
+
+/* Footer sits at the bottom of the screen on short pages (no blank white under it) */
+#app{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+#app>main{flex:1 0 auto}
+
+/* Header band: royal stripe along the bottom edge, mono kicker like the home page */
+.band{box-shadow:inset 0 -5px 0 var(--royal)}
+.lightband .band{box-shadow:inset 0 -5px 0 var(--athletics)}
+.band .wrap,.band .owrap{padding-bottom:26px}
+.eyebrow{font-family:var(--mono);font-weight:600;letter-spacing:.1em}
+/* Player screens: the header's small line is plain text, sentence case (refinement, Nov 21) */
+html:not(.exec) .band .eyebrow{font-family:var(--cond);font-size:14px;font-weight:600;letter-spacing:0;text-transform:none}
+.chip,.st,.pillx{font-family:var(--mono);font-weight:600;letter-spacing:.06em}
+
+/* Info boxes: white card with an ink border instead of a flat grey block */
+.lock{background:var(--surface);border:2px solid var(--ink);border-left-width:8px;padding:16px}
+.lock.turn{border-left-color:var(--band)}
+div.done{background:var(--surface);border:2px solid var(--ink);border-left-width:8px}
+.confirmbox{background:var(--surface)}
+
+/* Buttons stay in the body font; a primary button turns royal on hover */
+.btn.primary:not(:disabled):hover{background:var(--royal);border-color:var(--royal);color:#fff}
+
+/* The cup scoreboard is the headline of a Ryder Cup page */
+.cupband{box-shadow:6px 6px 0 var(--shadow);margin-right:6px}
+
+/* Match rows and the scorer header: long names wrap instead of being cut off */
+.pair span{white-space:normal;overflow-wrap:break-word}
+.vs .pair{font-size:15px}
+
+/* The match type above the score ("Four-ball → Singles") wraps inside the middle column instead of running into names */
+.mrow .stat .mnum{white-space:normal;text-align:center;line-height:1.25}
+
+/* League: Picked up button under a player's name, and PU in the score box */
+.putog{display:inline-block;margin-top:4px;background:transparent;border:0;border-bottom:1.5px dotted var(--rule);color:var(--muted);font-size:12px;font-weight:600;padding:2px 0}
+.putog.on{border:0;padding:2px 6px}
+/* Picked up: a 44px tap area from an invisible layer, kept well clear of the − button (refinement, Nov 21) */
+.putog{position:relative}.putog::after{content:"";position:absolute;left:-8px;right:-8px;top:50%;height:44px;transform:translateY(-50%)}
+.prow .who{padding-right:12px}
+.putog.on{background:var(--ink);color:var(--ground)}
+.stepper .val.picked{font-family:var(--display);font-size:24px;color:var(--muted)}
+.prow.pu .who{color:var(--muted)}
+
+/* Leaderboards: your own row is marked */
+.lbrow.me{box-shadow:inset 4px 0 0 var(--royal)}
+
+/* Event: "find your group" list, the group number as a navy tile */
+.pickrow .num{background:var(--ink);color:var(--ground);padding:8px 6px 7px;font-size:34px}
+.pickrow .num small{color:var(--bandmuted);margin-bottom:4px}
+
+/* ---------- Tryouts: My tryout ---------- */
+/* Tryout info stays two across on phones; date and course are short */
+.facts{border-top:3px solid var(--ink)}
+.fact b{font-size:17px}
+@media (max-width:440px){.facts{grid-template-columns:1fr 1fr}}
+/* an odd one out right before the full-width "Where" spans the row, so no empty grey square */
+.facts .fact:nth-child(odd):has(+ .fact.wide){grid-column:1/-1}
+/* Your group / Your ride: your own row is marked, phone numbers look tappable */
+.ppl .r.me{background:var(--panel);box-shadow:inset 4px 0 0 var(--royal);padding-left:12px}
+.ppl .r b{font-weight:700}
+.ppl .r a{border:2px solid var(--ink);padding:6px 10px;text-decoration:none;flex:none}
+.ppl .r a:hover{background:var(--ink);color:var(--ground)}
+
+/* ---------- Scores: your average / best round ---------- */
+.avgcard{border-top:3px solid var(--ink)}
+
+/* ---------- League ---------- */
+.week{background:var(--surface);border:2px solid var(--ink);padding-bottom:14px}
+/* the league Schedule's weeks are plain sections, not boxes (the box was drawn with no padding) */
+.week.plain{background:none;border:0;padding:0}
+.bm2{transition:transform .15s,box-shadow .15s}
+.bm2:not(:disabled):hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--shadow)}
+
+/* ---------- Score entry (shared by /event, /tryouts and /league) ---------- */
+/* Hole header: big number, par as a small chip; plain white so it doesn't repeat the navy header above */
+.holebar{border-top:3px solid var(--ink);border-bottom:2px solid var(--rule);padding:12px 0}
+.holebar .nav{width:56px;height:56px;font-size:30px;line-height:1}
+.holebar .nav:not(:disabled):hover{background:var(--ink);color:var(--ground)}
+.hlabel{display:flex;flex-direction:column;align-items:center;gap:3px}
+.hlabel b{font-size:60px;line-height:.85;margin:0}
+/* Par line under the hole number (Will, Oct 28: the boxed mono "PAR 3 · HCP 16" didn't look great): plain words, no box.
+   "Par 3" dark and bold, "Handicap 16" grey beside it. */
+.hlabel .hmeta{display:flex;align-items:baseline;gap:7px;font-family:var(--cond);font-size:15px;line-height:1.3;color:var(--muted);text-transform:none;letter-spacing:0;white-space:nowrap}
+.hlabel .hmeta b{font-size:15px;line-height:1.3;font-weight:700;color:var(--ink);margin:0}
+.hlabel .hmeta .msep{opacity:.6}
+/* one clean status line under the hole: who's up and thru what */
+.mline{display:flex;justify-content:center;align-items:baseline;gap:10px;padding:2px 0 4px;text-align:center}
+.mline b{font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase;line-height:1}
+.mline span{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+
+/* Player rows: names in a plain, clear weight */
+.prow{padding:12px 0}
+.prow .who{font-size:18px;font-weight:700}
+.prow .who small{margin-top:2px}
+.prow .rel{font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.06em;color:var(--ink)}
+
+/* Stepper: big number in the middle, filled + button, golf-card marks for the score */
+.stepper{gap:6px}
+.stepper button{width:50px;height:56px;border-width:2px;font-size:28px}
+.stepper button:first-child{background:transparent}
+.stepper button:last-child{background:var(--ink);color:var(--ground)}
+.stepper button:active{transform:scale(.94)}
+.stepper .val{width:62px;height:56px;border:0;background:transparent;position:relative;font-size:38px;color:var(--ink)}
+.stepper .val::before{content:"";position:absolute;inset:6px 7px;border:2px solid transparent;pointer-events:none}
+.stepper .val.empty{font-family:var(--cond);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.stepper .val.empty::before{border:2px dashed var(--muted)}
+.stepper .val.bir::before{border-color:var(--royal);border-radius:50%}
+.stepper .val.eag::before{border:2px solid var(--royal);border-radius:50%;box-shadow:0 0 0 3px var(--ground),0 0 0 5px var(--royal)}
+.stepper .val.bog::before{border-color:var(--ink)}
+.stepper .val.dbl::before{border-color:var(--ink);box-shadow:0 0 0 3px var(--ground),0 0 0 5px var(--ink)}
+.stepper .val.bir,.stepper .val.eag{color:var(--royal)}
+.stepper.small button{width:40px;height:42px}
+.stepper.small .val{width:46px;height:42px;font-size:26px}
+
+/* Hole grid: entered holes filled navy, current hole ringed */
+.dots{gap:5px}
+.dot{padding:5px 0 6px;font-family:var(--cond);font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.hc{font-family:var(--cond);font-variant-numeric:tabular-nums}.hc .n{font-size:12px}
+.dot b{font-family:var(--display);font-weight:900;font-size:15px;height:16px;line-height:16px}
+.dot.done{background:var(--ink);border-color:var(--ink);color:var(--ground)}
+.dot.done b{color:var(--ground)}
+.dot.sel{outline:3px solid var(--royal);outline-offset:2px}
+.hc.sel{outline-color:var(--royal);outline-offset:2px}
+
+/* Match play "who won the hole" buttons */
+.choice{min-height:92px;font-size:16px}
+.choice:not(:disabled):active{transform:scale(.97)}
+
+/* Send status under the score entry: amber dot while scores wait on the phone, quiet check once they're sent */
+.sendline{margin:0;text-align:center;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.sendline.ok{color:#2f6b3a}
+.sendline.wait{color:#8a4b00;display:flex;align-items:center;justify-content:center;gap:8px}
+.sendline.wait::before{content:"";width:9px;height:9px;border-radius:50%;background:#e08a00;animation:pulse 1.6s infinite}
+@media (prefers-reduced-motion:reduce){.sendline.wait::before{animation:none}}
+
+/* Disabled "Next hole": an outline, not a heavy grey block */
+.btn.primary.big:disabled{background:transparent;color:var(--muted);border:2px dashed var(--rule);opacity:1}
+
+@media (max-width:440px){
+  .hlabel b{font-size:54px}
+  .stepper button{width:46px}
+  .stepper .val{width:56px}
+  .choice{font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){.bm2{transition:none}.bm2:not(:disabled):hover{transform:none}}
+
+/* Sliding tab highlight (Will, Oct 28; src/shared/slide.ts). Only kicks in once the script has measured (.slid), so a
+   page without it (or before it runs) looks exactly as before. */
+.seg2,.tabs{position:relative}
+.seg2.slid::before{content:"";position:absolute;left:0;top:0;width:var(--sw);height:var(--sh);transform:translate(var(--sx),var(--sy));background:var(--ink);pointer-events:none;z-index:0;transition:transform .3s cubic-bezier(.3,.8,.25,1),width .3s cubic-bezier(.3,.8,.25,1),height .3s}
+.seg2.slid>button,.seg2.slid>a{position:relative;z-index:1;transition:color .2s}
+.seg2.slid>button.on,.seg2.slid>a.on{background:transparent}
+.tabs.slid::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:var(--sw);transform:translateX(var(--sx));background:var(--ink);pointer-events:none;transition:transform .3s cubic-bezier(.3,.8,.25,1),width .3s cubic-bezier(.3,.8,.25,1)}
+.tabs.slid>button.on,.tabs.slid>a.on{border-bottom-color:transparent}
+.slid.snap::before,.slid.snap::after{transition:none}
+@media (prefers-reduced-motion:reduce){.slid::before,.slid::after{transition:none}}
+
+/* Press effect (Will, Oct 28, a test): tapped buttons dip down a touch and darken, so a tap on the course feels
+   registered. Under html.press (initSlide in events, tryouts, league; initPress in /scores). */
+.press :is(button, a.btn){transition:transform .16s ease, filter .16s ease, box-shadow .15s, color .2s, background-color .2s}
+.press :is(button, a.btn):not(:disabled):active{transform:translateY(1px) scale(.97);filter:brightness(.9);transition-duration:.05s}
+@media (prefers-reduced-motion:reduce){.press :is(button, a.btn):not(:disabled):active{transform:none}}
+
+/* Icons (Will, Oct 28): one small matching set, drawn in-house, used on player buttons and headings only.
+   <i class="ic ic-clock" aria-hidden="true"></i>. They take the text color (a mask over currentColor). */
+.ic{display:inline-block;flex:none;width:1.15em;height:1.15em;vertical-align:-.2em;background:currentColor;-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat}
+.ic-clock{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3.5 2'/%3E%3C/svg%3E")}
+.ic-pin{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z'/%3E%3Ccircle cx='12' cy='10' r='2.5'/%3E%3C/svg%3E")}
+.ic-cal{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='16' rx='2'/%3E%3Cpath d='M3 10h18M8 3v4M16 3v4'/%3E%3C/svg%3E")}
+.ic-flag{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 21V3l11 4.5L7 12'/%3E%3Cpath d='M3 21h8'/%3E%3C/svg%3E")}
+.ic-car{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 16.5v-4.5l2.5-5h13l2.5 5v4.5z'/%3E%3Cpath d='M3 12h18'/%3E%3Ccircle cx='7.5' cy='16.5' r='2'/%3E%3Ccircle cx='16.5' cy='16.5' r='2'/%3E%3C/svg%3E")}
+.ic-users{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='8' r='3.5'/%3E%3Cpath d='M2.5 20a6.5 6.5 0 0 1 13 0'/%3E%3Cpath d='M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2a6.5 6.5 0 0 1 3.5 5.8'/%3E%3C/svg%3E")}
+.ic-search{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='6.5'/%3E%3Cpath d='m16 16 5 5'/%3E%3C/svg%3E")}
+.ic-pencil{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20h4L19.5 8.5l-4-4L4 16z'/%3E%3Cpath d='m13.5 6.5 4 4'/%3E%3C/svg%3E")}
+.ic-plus{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E")}
+.ic-trophy{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 4h8v5a4 4 0 0 1-8 0z'/%3E%3Cpath d='M8 6H5a3 3 0 0 0 3 4.5M16 6h3a3 3 0 0 1-3 4.5M12 13v4M8 21h8M9.5 17h5v4h-5z'/%3E%3C/svg%3E")}
+.ic-camera{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 8h3.5l2-3h6l2 3h3.5v11.5h-17z'/%3E%3Ccircle cx='12' cy='13.5' r='3.5'/%3E%3C/svg%3E")}
+.ic-chat{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 5h16v11H10l-6 4z'/%3E%3C/svg%3E")}
+.ic-card{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='3' width='16' height='18' rx='2'/%3E%3Cpath d='M8 8h8M8 12h8M8 16h5'/%3E%3C/svg%3E")}
+.ic-signal{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20v-3M9 20v-7M14 20v-11M19 20V4'/%3E%3C/svg%3E")}
+
+/* Screen changes (Will, Oct 28; src/shared/motion.ts): the new screen slides in a little and fades up. Going deeper
+   (your match -> scoring, next hole) it comes from the right, going back from the left. Short, so scorers tapping fast
+   never wait on it. */
+@keyframes scrfwd{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
+@keyframes scrback{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+main.scr-fwd{animation:scrfwd .24s cubic-bezier(.2,.8,.2,1)}
+main.scr-back{animation:scrback .24s cubic-bezier(.2,.8,.2,1)}
+#app{overflow-x:clip}
+@media (prefers-reduced-motion:reduce){main.scr-fwd,main.scr-back{animation:none}}
+
+/* Loading placeholders (Will, Oct 28): grey outlines of the page with a soft shine moving across, instead of
+   "Loading…". `.skel` (header bits) gets the same shine. */
+@keyframes skshine{from{background-position:150% 0}to{background-position:-50% 0}}
+.skpage{display:flex;flex-direction:column;gap:12px;padding-top:4px}
+/* first-load page: tall enough that the footer starts below the screen, so it doesn't jump when content arrives */
+.skpage.full{min-height:calc(100svh - 120px)}
+.k-hd .skwrap{display:flex;flex-direction:column;gap:.1em}
+.k-hd .skwrap.k-lede{gap:7px}
+.sk{display:block;background:linear-gradient(100deg,#e6e9ee 40%,#f3f5f8 50%,#e6e9ee 60%) #e6e9ee;background-size:200% 100%;animation:skshine 1.3s linear infinite}
+.sk.big{height:150px}.sk.row{height:58px}.sk.title{height:22px;width:40%;margin-top:10px}
+.skel{animation:skpulse 1.3s ease-in-out infinite}
+@keyframes skpulse{50%{opacity:.08}}
+@media (prefers-reduced-motion:reduce){.sk,.skel{animation:none}}
+
+/* Fewer shouting labels (Will, Oct 28): section notes, form labels and card titles in normal sentence case.
+   The small caps stay for scoreboard bits (THRU 5, NOT STARTED, POINTS, chips, eyebrows). Player screens only:
+   html.exec (markExec in motion.ts) keeps exec screens as they were. */
+html:not(.exec) .sechead small{text-transform:none;letter-spacing:0;font-weight:600;font-size:13px}
+html:not(.exec) :is(.field label,label.q,.field>.lbl){text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink)}
+html:not(.exec) .card h3{text-transform:none;letter-spacing:0;font-size:15px;color:var(--ink)}
+.pick-cta>div{flex:1;min-width:0}
+.pick-cta>.ic{font-size:30px}
+.btn>.ic{margin-right:2px}
+.cta>div{flex:1;min-width:0}
+.cta>.ic{font-size:30px}
+.sechead h2 .ic{font-size:.85em;margin-right:6px;vertical-align:-.1em}
+.fact small .ic,.tee small .ic{margin-right:4px}
+.photo-drop>.ic{font-size:28px}
+
+/* Wide screens (Will, Oct 28): the league home uses the laptop's width - you / This week on the left, the league tabs
+   on the right. The event board stays stacked (Will tried two columns and prefers it stacked). Phones are unchanged
+   (one column, same order). Forms and info pages (tryouts, /scores) stay in the narrow reading column on purpose. */
+.pcols,.pcol1,.pcol2{display:flex;flex-direction:column;gap:14px;min-width:0}
+@media (min-width:1024px){
+  main .wrap.wide{max-width:1180px}
+  .pcols{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:32px;align-items:start}
+}
+/* the header lines up with a wide page */
+@media (min-width:1024px){#app:has(main .wrap.wide) .band .wrap{max-width:1180px}}
+/* "Your match" stays a small caps kicker; the match type under it reads normally */
+.lblsub{display:block;margin-top:3px;text-transform:none;letter-spacing:0;font-size:13px;font-weight:600;opacity:.85}
+
+/* The small label beside a Back button (e.g. "Four-ball → Singles · Scorer") stays on one line and ends in … if it's
+   too long, instead of running into the edge of the screen */
+.toprow:has(>.back)>.eyebrow{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}
+.toprow:has(>.back)>.back{flex:none}

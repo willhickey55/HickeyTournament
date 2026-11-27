@@ -1,0 +1,123 @@
+/* App-only refinement: intentionally never included by build.py or the homepage.
+   Review (Oct 28): label case stays on player screens only (html.exec, PR 38); no second underline on tabs (the sliding
+   highlight marks them); the event board stays one stacked column on laptops (Will tried two and wants it stacked). */
+:root{--control-panel:#f3f6fa;--control-line:#cbd4e0}
+.btn{min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:6px;line-height:1.35;text-decoration:none}
+.btn:not(.primary):not(.danger){background:var(--surface,#fff);border-color:var(--control-line)}
+.btn:not(.primary):not(.danger):not(:disabled):hover{background:var(--control-panel);border-color:var(--ink)}
+/* Buttons in the navy footer stay see-through with light text (the white fill above hid the tryouts Contact us text, Oct 29). */
+.foot .btn:not(.primary):not(.danger){background:transparent;border-color:var(--bandmuted);color:var(--onband)}
+.foot .btn:not(.primary):not(.danger):not(:disabled):hover{background:rgba(255,255,255,.12);border-color:var(--onband)}
+.btn.danger{background:#fff4f5;border-color:#c98591;color:#8b1830}
+.btn.danger:not(:disabled):hover{background:#8b1830;color:white;border-color:#8b1830}
+.btn:disabled{cursor:not-allowed;opacity:.55}
+.link,.back{min-height:44px;padding:10px 6px;display:inline-flex;align-items:center;justify-content:center;line-height:1.4}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #2967cf;outline-offset:3px}
+.tabs button,.seg button,.seg2 button{min-height:44px;position:relative}
+.seg2 button.on,.seg button.on{font-weight:700}
+.field{gap:7px}html:not(.exec) :is(.field label,.field>.lbl){font-family:var(--cond);font-size:14px;letter-spacing:0;text-transform:none;line-height:1.4}
+.field input,.field select,.field textarea{border-radius:6px;min-height:46px}
+.field input[aria-invalid=true]{border-color:#9e1b32;background:#fff8f9}
+.field-error{color:#8b1830;font-size:13px;line-height:1.5;margin:0}
+.pill.sm,.chip,.mnum,.choice small{font-family:var(--cond);letter-spacing:.015em}
+.pill.sm{font-size:14px;line-height:1.4;padding:4px 9px}.sub{line-height:1.5}
+/* Save line (Will, Oct 28): takes no room when there's nothing to say (the holes below move up); the page's own
+   14px column gap spaces it, so no extra margin here or on the Undo bar */
+.save-status{display:flex;flex-direction:column;gap:6px;margin:0}
+.save-status:empty{display:none}
+.save-status p{margin:0;padding:8px 12px;background:var(--control-panel);border-radius:6px;line-height:1.5}
+.save-status .err{background:#fff0f2;color:#8b1830;border-left:3px solid #9e1b32}
+.save-status small{display:block}.sendline.ok{color:#245e3b}.sendline.wait{color:#66500c}
+.holebar{padding-block:20px}.prow{padding-block:16px}.who{line-height:1.5}
+.undo-score{display:flex;gap:12px;align-items:center;justify-content:space-between;background:#eef3fb;border:1px solid #c9d8f0;border-radius:6px;padding:8px 12px;margin:0}
+.undo-score span{font-size:14px;line-height:1.4}.undo-score button{flex:none}
+.reset-dialog{width:min(540px,calc(100vw - 32px));max-height:calc(100dvh - 48px);padding:26px;border:1px solid #cbd4e0;border-top:5px solid #9e1b32;border-radius:8px;color:#041e42;background:#fff;box-sizing:border-box;box-shadow:0 24px 80px #0004}
+.reset-dialog::backdrop{background:#041e42a8}.reset-dialog h2{margin:0 0 12px;font:800 26px var(--display,sans-serif)}
+.reset-dialog p{font:400 15px/1.6 var(--cond,sans-serif)}.reset-exports{display:flex;gap:8px;flex-wrap:wrap;padding:16px 0;border-block:1px solid #d8dfe9}
+.reset-actions{display:flex;justify-content:space-between;gap:16px;margin-top:24px;align-items:center}.reset-actions .danger{max-width:65%}
+.form-section{margin:0;padding:22px 20px;border:1px solid #d9e0e9;background:#fff;border-radius:6px;min-width:0;display:flex;flex-direction:column;gap:18px}
+.form-section legend{padding:0 8px;font:700 16px var(--cond);color:var(--ink)}.rform{gap:24px!important}.rform>.actions{align-items:center}.rform>.actions>.primary{flex:1}.rform>.actions>.cancel-round{width:auto;min-width:90px;background:transparent;border-color:transparent}
+.form-section .thumbrow{align-items:center;gap:16px;flex-wrap:wrap}.form-section .thumb{max-height:180px;object-fit:contain}.form-section .photo-drop{border-radius:6px;background:#f5f7fb}
+.draft-note{font-size:13px;line-height:1.5;color:var(--muted);margin:0}.dpanel:focus{outline:none}
+.recruit-status,.offs{background:#edf2f8;border:1px solid #d0dbe8;border-top:4px solid var(--royal);padding:26px 24px;margin:24px 0;border-radius:6px}
+.recruit-status h2,.offs h2{font:800 clamp(28px,5vw,42px)/1.1 var(--display);margin:12px 0}.recruit-status p,.offs p{font-size:15px;line-height:1.65;max-width:60ch}
+.season-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:24px 0;margin:20px 0;border-block:1px solid #cbd4e0}.season-facts span{font-size:13px;line-height:1.5}.season-facts b{display:block;font-size:18px;margin-bottom:5px}
+.steps li{padding-block:14px}.steps .n{border-radius:6px}
+.results-columns,.results-columns>section,.results-columns>aside{display:flex;flex-direction:column;gap:14px;min-width:0}.results-columns .list{border:0;display:flex;flex-direction:column;gap:14px}
+.results-columns .mrow{border:1px solid #cbd4e0;border-radius:6px;padding:18px 14px;background:#fff;box-shadow:0 2px 5px #041e4208}
+.results-columns .mrow.mine{border-left:4px solid var(--royal)}.results-columns .clines{margin-top:16px;padding-top:10px;border-top:1px solid #dce3ec}
+.results-columns .cline{padding-block:9px;gap:12px}.results-columns .cstat{min-width:100px;max-width:180px}.results-columns .cstat .sub{white-space:normal;font-size:12px;text-transform:none;letter-spacing:0;text-align:right}
+.results-columns .pair{font-size:15px;line-height:1.5}.results-columns .lb{border:1px solid #cbd4e0;border-radius:6px;overflow:hidden}.results-columns .lbrow.head{background:#edf2f8}
+/* Card look on the league and tryouts boards (Will, Oct 29: the event board's rounded cards and calmer type "look REALLY
+   good"): thin grey border, 6px corners, soft shadow, your own card marked with a royal edge. Player screens only
+   (exec screens stay plain). */
+html:not(.exec) .bm2{border:1px solid #cbd4e0;border-radius:6px;overflow:hidden;background:#fff;box-shadow:0 2px 5px #041e4208}
+html:not(.exec) .bm2.done,html:not(.exec) .bm2.islive{border-color:#cbd4e0}
+html:not(.exec) .bm2.mine{border-left:4px solid var(--royal);box-shadow:0 2px 5px #041e4208}
+html:not(.exec) .bm2:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 8px 18px #041e4218}
+html:not(.exec) .bt2{padding-block:10px}
+html:not(.exec) .bfoot{font-family:var(--cond);font-size:13px;font-weight:600;letter-spacing:0;text-transform:none;padding:8px 12px;border-top-color:#dce3ec}
+html:not(.exec) .bt2 .tn .you{border-radius:4px;letter-spacing:.06em}
+html:not(.exec) .week:not(.plain){border:1px solid #cbd4e0;border-radius:6px;box-shadow:0 2px 5px #041e4208;padding:16px 14px 6px}
+html:not(.exec) .week .weekhead{border-bottom:1px solid #dce3ec}
+html:not(.exec) .pool{border:1px solid #cbd4e0;border-radius:6px;overflow:hidden;box-shadow:0 2px 5px #041e4208}
+html:not(.exec) .poolhead{background:#edf2f8;color:var(--ink);border-bottom:1px solid #cbd4e0}
+html:not(.exec) .poolhead small{color:var(--muted)}
+html:not(.exec) .ptable{border:0}
+html:not(.exec) .prow2{border-top-color:#dce3ec}
+html:not(.exec) .prow2.q::before{width:4px;background:var(--royal)}
+html:not(.exec) .prow2.me{background:#f5f8fc}
+html:not(.exec) .bt2 .tn,html:not(.exec) .prow2 .who{line-height:1.45}
+html:not(.exec) .bt2 .tn > span,html:not(.exec) .prow2 .who b{font-weight:600}
+html:not(.exec) .bt2.lead .res{font-family:var(--cond);font-size:14px;font-weight:800;line-height:1.4;letter-spacing:.015em;background:var(--band);color:var(--onband);padding:4px 9px;min-width:64px;text-align:center}
+html:not(.exec) .bt2.win .res{font-size:20px}
+html:not(.exec) .week > .note{margin-top:12px}
+/* Round 2 (Will, Oct 29): the cards around the boards and the score entry controls get the same corners. Bogey squares
+   and birdie circles on the score stay as they are (they're golf-card marks). */
+html:not(.exec) .lock,html:not(.exec) div.done{border:1px solid #cbd4e0;border-left:5px solid var(--ink);border-radius:6px;box-shadow:0 2px 5px #041e4208}
+html:not(.exec) .lock.turn{border-left-color:var(--band)}
+html:not(.exec) .stepper button{border-radius:6px}
+html:not(.exec) .stepper .val.empty::before{border-radius:6px}
+html:not(.exec) .holebar .nav{border-radius:6px}
+html:not(.exec) .dot,html:not(.exec) .hc{border-radius:6px}
+html:not(.exec) .lb{border:1px solid #cbd4e0;border-radius:6px;overflow:hidden;box-shadow:0 2px 5px #041e4208}
+html:not(.exec) .lbrow{border-bottom:1px solid #dce3ec;padding-inline:8px}
+html:not(.exec) .lbrow:last-child{border-bottom:0}
+html:not(.exec) .lbrow.head{background:#edf2f8}
+/* Match status on the right (Will, Oct 29): the "1 UP" box and the line under it sit on the right edge in a fixed-width
+   column, so a long side name ("Team Mansfield won") wraps under it instead of pushing the box left. */
+.cline .cstat{align-items:flex-end;width:118px;min-width:0;max-width:none}
+.results-columns .cstat{width:118px;min-width:0;max-width:none}
+.cline .cstat .pill{min-width:64px;text-align:center;justify-content:center}
+.cline .cstat .sub{text-align:right;white-space:normal}
+@media(max-width:480px){.form-section{padding:18px 14px}.season-facts{gap:10px}.season-facts b{font-size:16px}.recruit-status,.offs{padding:22px 18px}.results-columns .mrow{padding:16px 10px}.results-columns .pair{font-size:14px}.reset-dialog{padding:22px 18px}}
+
+.submission-banner{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:80;width:min(600px,calc(100% - 32px));background:#041e42;color:#fff;padding:16px 20px;border:2px solid #a8bedc;border-radius:6px;box-shadow:0 4px 24px #0003;font-size:14px;line-height:1.5}.inline:has(>.btn.danger),.toolbar:has(>.btn.danger){padding:18px;background:#fff5f6;border:1px solid #ebcbd2;border-radius:6px;margin-block:16px}.season-facts+a.btn{color:var(--ink)}
+
+/* Corners (Will, Oct 29): one corner size across the apps. Boxes, cards, buttons and form boxes 6px; small tags (chips,
+   score pills, "You") 4px. Full-width header bands and footers stay square; the home page keeps its square look (it
+   never loads this file). Golf-card marks on scores (birdie circles, bogey squares) are untouched. */
+input[type=text],input[type=password],input[type=email],input[type=tel],input[type=number],input[type=date],input[type=time],
+input[type=datetime-local],select,textarea,.picker,.psearch,.choice{border-radius:6px}
+html:not(.exec) :is(.callout,.closed,.ghost,.lock,.drawer .btn){border-radius:6px}
+html:not(.exec) :is(.chip,.pill,.live){border-radius:4px}
+html:not(.exec) .callout,html:not(.exec) .closed{overflow:hidden}
+/* Ryder Cup scoreboard: rounded like the match cards under it, offset shadow kept; the "Cup won" box inside a step smaller. */
+html:not(.exec) .cupband{border-radius:8px}
+html:not(.exec) .clinch{border-radius:6px;overflow:hidden}
+.tname.wrap span{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.25}
+.tname.wrap{align-items:flex-start}
+/* Contest names under a split match ("Bisbee v Mansfield") were 10.8px: 12px reads better outside. */
+.cline .cpart small{font-size:12px}
+
+
+/* Corners, part 2: the big navy blocks (Your match / Your tryout / tee time cards and the Sign up / Find my tryout
+   buttons) and the tryout Details grid. The Your match and tee time cards keep their cut-corner notch at the bottom
+   right (Will, Oct 29); their other three corners are rounded. */
+html:not(.exec) :is(.cta,.pick-cta,.tee,.mine-card){border-radius:8px}
+html:not(.exec) .facts{border-radius:6px;overflow:hidden}
+html:not(.exec) .ppl .r a{border-radius:6px}
+/* Buttons on the navy tee time card stay see-through with light text (Oct 29: the white .btn fill above made the tryouts
+   "Add to calendar" button white on white since Oct 28, same fix as the footer). */
+.tee .btn:not(.primary):not(.danger){background:transparent;border-color:var(--onband);color:var(--onband)}
+.tee .btn:not(.primary):not(.danger):not(:disabled):hover{background:rgba(255,255,255,.12)}

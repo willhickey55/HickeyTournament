@@ -1,0 +1,211 @@
+/* UNH Golf player kit (Nov 19, the redesign Will approved on the design canvas:
+   https://claude.ai/artifact/PPfNRQ7vypGBD3SJFufK53). Imported LAST, so far only by tryouts-app (league is next).
+   Every class starts with k- so nothing here can clash with base.css, polish.css or controls.css, and only player
+   screens use these classes (exec screens stay plain). Big Shoulders Display for headings, numbers and button labels,
+   Public Sans for everything else. Open sections split by whitespace and hairlines; boxes only for real objects
+   (the tee time card, the action card, form fields). Hard offset shadows only on buttons and one hero per page. */
+:root{--k-navy:#041e42;--k-royal:#003594;--k-base:#010b18;--k-gray:#bbbcbc;--k-mut:#4f627b;--k-hair:#dddede;--k-line:#c9cbcc;--k-panel:#eeefef;--k-err:#b3261e;
+  --k-disp:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--k-text:"Public Sans",Arial,system-ui,sans-serif}
+
+/* ---------- page shell: header band, main column, footer ---------- */
+.k-hd,.k-main,.k-ft{font-family:var(--k-text);font-size:16px;line-height:1.5;color:var(--k-navy)}
+.k-hd :is(h1,h2,h3,p),.k-main :is(h1,h2,h3,h4,p,ul,ol,dl,dd),.k-ft p{margin:0}
+.k-wrap{width:100%;max-width:680px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.k-wrap.k-wide{max-width:1200px}
+.k-hd{background:var(--k-navy);color:#fff;border-bottom:4px solid var(--k-royal)}
+.k-hd .k-wrap{padding-top:8px;padding-bottom:40px;display:flex;flex-direction:column;gap:24px}
+.k-hd.k-tall .k-wrap{padding-bottom:64px}
+.k-hd.k-slim .k-wrap{padding-bottom:16px;gap:8px}
+.k-top{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:64px}
+.k-logo{display:inline-flex;align-items:center;min-height:44px;flex:none}
+.k-logo img{display:block;width:105px;height:64px}
+.k-hdlink{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 2px;color:#fff;font-size:14px;font-weight:600;text-decoration:none;background:none;border:0;font-family:var(--k-text);cursor:pointer}
+.k-hdlink:hover{color:var(--k-gray)}
+.k-hdlink:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.k-titles{display:flex;flex-direction:column;gap:12px}
+.k-kick{font-size:14px;font-weight:600;line-height:1.3;color:var(--k-gray)}
+.k-h1{font-family:var(--k-disp);font-weight:900;text-transform:uppercase;letter-spacing:.005em;line-height:.9;font-size:clamp(46px,15vw,64px);overflow-wrap:anywhere}
+.k-hd.k-form .k-h1{font-size:clamp(40px,12.5vw,52px)}
+.k-lede{font-size:17px;color:#fff;max-width:560px}
+.k-chip{display:inline-flex;align-items:center;gap:6px;min-height:28px;padding:0 10px;border-radius:4px;font-size:13px;font-weight:600;white-space:nowrap;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(187,188,188,.45)}
+
+.k-main{flex:1 0 auto;background:#fff}
+.k-main>.k-wrap{padding-top:24px;padding-bottom:48px;display:flex;flex-direction:column;gap:40px}
+.k-sec{display:flex;flex-direction:column;gap:16px;min-width:0}
+.k-h2{font-family:var(--k-disp);font-weight:800;font-size:34px;text-transform:uppercase;letter-spacing:.01em;line-height:.95;color:var(--k-navy);display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.k-h2 small{font-family:var(--k-text);font-size:14px;font-weight:600;text-transform:none;letter-spacing:0;color:var(--k-mut)}
+.k-h3{font-family:var(--k-disp);font-weight:800;font-size:24px;text-transform:uppercase;line-height:1}
+.k-mut{color:var(--k-mut)}
+.k-p{font-size:17px;white-space:pre-line}
+.k-small{font-size:14px;color:var(--k-mut)}
+.k-strong{font-weight:700}
+
+/* ---------- pressable buttons: a face on a solid base, lifts on hover, drops flat when pressed ---------- */
+.k-btn{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;margin:4px 0 0;padding:0 24px;
+  border:2px solid var(--k-base);border-radius:4px;background:var(--k-navy);color:#fff;box-shadow:0 4px 0 var(--k-base);transform:translateY(-4px);
+  font-family:var(--k-disp);font-weight:800;font-size:20px;letter-spacing:.04em;text-transform:uppercase;line-height:1.05;text-align:center;text-decoration:none;cursor:pointer;
+  transition:transform .12s ease,box-shadow .12s ease,background-color .12s ease}
+.k-btn:hover{transform:translateY(-6px);box-shadow:0 6px 0 var(--k-base);color:#fff}
+.k-btn:active{transform:translateY(0);box-shadow:0 0 0 var(--k-base)}
+html.press .k-btn.k-btn:not(:disabled):active{transform:translateY(0);filter:none}
+.k-btn:focus-visible{outline:2px solid var(--k-royal);outline-offset:6px}
+.k-btn svg{flex:none}
+.k-btn.k-s{background:#fff;color:var(--k-navy);border-color:var(--k-navy);box-shadow:0 4px 0 var(--k-navy)}
+.k-btn.k-s:hover{box-shadow:0 6px 0 var(--k-navy);color:var(--k-navy)}
+.k-btn.k-s:active{box-shadow:0 0 0 var(--k-navy)}
+.k-btn.k-inv{background:#fff;color:var(--k-navy);border-color:#fff;box-shadow:0 4px 0 var(--k-gray)}
+.k-btn.k-inv:hover{box-shadow:0 6px 0 var(--k-gray);color:var(--k-navy)}
+.k-btn.k-inv:active{box-shadow:0 0 0 var(--k-gray)}
+.k-btn.k-inv:focus-visible{outline-color:#fff}
+.k-btn.k-sm{min-height:44px;font-size:18px;padding:0 16px}
+.k-btn.k-auto{display:inline-flex;width:auto;align-self:flex-start}
+.k-btn:disabled,.k-btn[aria-disabled=true]{cursor:not-allowed;background:var(--k-panel);color:var(--k-mut);border:2px dashed #7f8b9b;box-shadow:none;transform:none}
+@media (prefers-reduced-motion:reduce){.k-btn{transition:none}}
+
+.k-lnk{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0;background:none;border:0;font:inherit;font-weight:600;color:var(--k-royal);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;cursor:pointer;text-align:left}
+.k-lnk:hover{color:var(--k-navy)}
+.k-lnk:focus-visible{outline:2px solid var(--k-royal);outline-offset:2px}
+
+/* ---------- the action card (one real box, overlaps the header on phones) ---------- */
+.k-card{border:1px solid var(--k-line);border-radius:4px;background:#fff}
+.k-act{padding:24px 20px 16px;display:flex;flex-direction:column;gap:16px}
+.k-act .k-h3{font-size:32px;line-height:.95}
+.k-act .k-lnk{align-self:center;text-align:center}
+.k-lap{display:none}
+.k-mrow{display:grid;grid-template-columns:20px minmax(0,1fr);gap:8px;align-items:start}
+.k-mrow svg{margin-top:2px}
+
+/* landing layout: one column on phones (action card first, pulled up over the header); on laptops the content is on
+   the left and the action card sticks on the right */
+.k-cols{display:flex;flex-direction:column;gap:40px}
+.k-colm{display:flex;flex-direction:column;gap:40px;min-width:0}
+.k-cola>.k-card{margin-top:-64px;position:relative}
+@media (min-width:1024px){
+  .k-hd.k-tall .k-wrap{padding-left:40px;padding-right:40px}
+  .k-hd .k-wide .k-h1{font-size:104px}
+  .k-hd .k-wide .k-lede{font-size:19px}
+  .k-hd .k-wide .k-logo img{width:132px;height:80px}
+  .k-main>.k-wrap.k-wide{padding:64px 40px}
+  .k-cols{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:64px;align-items:start}
+  .k-cola{grid-column:2;grid-row:1;position:sticky;top:24px}
+  .k-colm{grid-column:1;grid-row:1}
+  .k-cola>.k-card{margin-top:0}
+  .k-lap{display:flex}
+  .k-wide .k-h2{font-size:40px}
+  .k-wide .k-facts{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+  .k-ft .k-wrap.k-wide{padding-left:40px;padding-right:40px}
+  .k-wide .k-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+}
+
+/* ---------- facts, label/value lists, numbered steps, questions ---------- */
+.k-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px;border-bottom:1px solid var(--k-hair)}
+.k-fact{padding:8px 0 16px;border-top:1px solid var(--k-hair);display:flex;flex-direction:column;min-width:0}
+.k-fact dt{font-size:14px;font-weight:500;color:var(--k-mut);padding-top:8px}
+.k-fact dd{font-weight:600;font-size:17px;line-height:1.3;overflow-wrap:anywhere}
+.k-dl{display:flex;flex-direction:column;border-bottom:1px solid var(--k-hair)}
+.k-dl>div{display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;padding:16px 0;border-top:1px solid var(--k-hair)}
+.k-dl dt{font-size:14px;font-weight:500;color:var(--k-mut);padding-top:1px}
+.k-dl dd{font-weight:600;overflow-wrap:anywhere;white-space:pre-line}
+.k-steps{list-style:none;padding:0;display:flex;flex-direction:column;gap:24px}
+.k-steps li{display:grid;grid-template-columns:40px minmax(0,1fr);column-gap:16px;align-items:start}
+.k-n{font-family:var(--k-disp);font-weight:900;font-size:44px;line-height:.85;color:var(--k-navy)}
+.k-steps h3{font-family:var(--k-text);font-weight:700;font-size:17px;line-height:1.3;margin:0 0 4px}
+.k-steps p{color:var(--k-mut)}
+.k-steps p+p{margin-top:4px}
+.k-faq details{border-top:1px solid var(--k-hair)}
+.k-faq details:last-child{border-bottom:1px solid var(--k-hair)}
+.k-faq summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:56px;padding:16px 0;cursor:pointer;font-weight:600;font-size:16px;line-height:1.35}
+.k-faq summary::-webkit-details-marker{display:none}
+.k-faq summary:focus-visible{outline:2px solid var(--k-royal);outline-offset:2px}
+.k-faq .k-pm{width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex:none;font-family:var(--k-disp);font-weight:800;font-size:26px;line-height:1}
+.k-faq .k-pm::before{content:"+"}
+.k-faq details[open] .k-pm::before{content:"\2212"}
+.k-faq .k-ans{padding:0 40px 16px 0;color:var(--k-mut);white-space:pre-line}
+.k-ppl{list-style:none;padding:0;display:flex;flex-direction:column;border-bottom:1px solid var(--k-hair)}
+.k-ppl li{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;padding:8px 0;border-top:1px solid var(--k-hair);font-weight:600;font-size:17px;overflow-wrap:anywhere}
+.k-ppl li small{display:block;font-size:14px;font-weight:500;color:var(--k-mut)}
+.k-you{flex:none;font-size:13px;font-weight:600;padding:2px 8px;border-radius:4px;background:var(--k-navy);color:#fff}
+.k-msg{display:flex;flex-direction:column;gap:6px}
+.k-msg b{font-family:var(--k-disp);font-weight:800;font-size:26px;text-transform:uppercase;line-height:1}
+.k-msg p{color:var(--k-mut)}
+.k-rule{border-top:1px solid var(--k-hair);padding-top:16px}
+
+/* ---------- the hero object: tee time card (hard royal shadow, cut corner kept) ---------- */
+.k-teewrap{filter:drop-shadow(4px 4px 0 var(--k-royal));margin-right:4px}
+.k-tee{background:var(--k-navy);color:#fff;border-radius:4px 4px 0 4px;padding:24px 20px 32px;display:flex;flex-direction:column;gap:16px;
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 22px),calc(100% - 100px) 100%,0 100%)}
+.k-tee .k-h3{font-size:22px;color:var(--k-gray)}
+.k-tail{display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin-top:-16px}
+.k-big{white-space:nowrap;font-family:var(--k-disp);font-weight:900;font-size:min(88px,19vw);line-height:.85;font-variant-numeric:tabular-nums}
+.k-tee .k-when{font-weight:600;font-size:18px}
+.k-irow{display:flex;gap:8px;align-items:center}
+.k-tee .k-rows{display:flex;flex-direction:column;gap:8px;border-top:1px solid rgba(187,188,188,.45);padding-top:16px}
+.k-tee .k-btn{margin-top:8px}
+@media (max-width:360px){.k-big{font-size:72px}}
+.k-tel{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:56px;padding:0 16px;border:2px solid var(--k-navy);border-radius:4px;color:var(--k-navy);text-decoration:none;
+  font-family:var(--k-disp);font-weight:800;font-size:26px;letter-spacing:.02em}
+.k-tel:hover{background:var(--k-panel);color:var(--k-navy)}
+.k-tel:focus-visible{outline:2px solid var(--k-royal);outline-offset:3px}
+.k-tel small{display:block;font-family:var(--k-text);font-size:13px;font-weight:600;letter-spacing:0;color:var(--k-mut);line-height:1.2}
+
+/* ---------- forms: calm text fields, bubble pickers ---------- */
+.k-form{display:flex;flex-direction:column;gap:24px}
+.k-fld{display:flex;flex-direction:column;gap:8px;border:0;padding:0;margin:0;min-width:0}
+.k-fld>label,.k-fld>legend{font-weight:600;font-size:15px;line-height:1.3;padding:0;color:var(--k-navy)}
+.k-fld>legend{margin-bottom:8px}
+.k-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:400px){.k-two.k-names{grid-template-columns:1fr}}
+.k-main input.k-in{width:100%;height:52px;min-height:52px;border:2px solid var(--k-navy);border-radius:4px;padding:0 14px;font-family:var(--k-text);font-size:17px;color:var(--k-navy);background:#fff;box-shadow:none}
+.k-main input.k-in::placeholder{color:#6a778a}
+.k-main input.k-in:focus,.k-main input.k-in:focus-visible{outline:none;border-color:var(--k-royal);box-shadow:0 0 0 3px rgba(0,53,148,.25)}
+.k-main input.k-in.k-bad{border-color:var(--k-err)}
+.k-main input.k-code{text-transform:uppercase;letter-spacing:.12em;font-weight:700}
+.k-err{color:var(--k-err);font-size:14px;font-weight:500;line-height:1.35}
+.k-hint{color:var(--k-mut);font-size:14px;line-height:1.35}
+.k-bub{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:8px;position:relative}
+.k-bub input{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
+.k-bub label{display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 8px;border-radius:999px;background:var(--k-panel);border:2px solid transparent;color:var(--k-navy);
+  font-weight:600;font-size:15px;line-height:1.1;text-align:center;cursor:pointer;min-width:0;user-select:none}
+.k-bub label:hover{border-color:var(--k-navy)}
+.k-bub input:checked+label{background:var(--k-navy);border-color:var(--k-navy);color:#fff}
+.k-bub input:focus-visible+label{outline:2px solid var(--k-royal);outline-offset:2px}
+.k-bub.k-yr{grid-auto-flow:row;grid-template-columns:repeat(6,minmax(0,1fr))}
+.k-bub.k-yr label{grid-column:span 2}
+.k-bub.k-yr label:nth-of-type(n+4){grid-column:span 3}
+.k-check{padding:20px;display:flex;flex-direction:column;gap:8px}
+.k-check .k-v{font-weight:700;font-size:18px;overflow-wrap:anywhere}
+.k-endrow{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--k-hair);padding-top:24px}
+.k-endrow .k-hint{text-align:center}
+/* the digit boxes (Find my tryout) in the kit's look */
+.k-main .codebox{gap:10px;max-width:calc(var(--n) * 68px)}
+.k-main .cbox{height:64px;border:2px solid var(--k-navy);border-radius:4px;font-family:var(--k-disp);font-weight:800;font-size:34px;color:var(--k-navy)}
+.k-main .codebox.focus .cbox.at{border-color:var(--k-royal);box-shadow:0 0 0 3px rgba(0,53,148,.25)}
+.k-details summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:600;color:var(--k-royal);text-decoration:underline;text-underline-offset:3px}
+.k-details[open]{display:flex;flex-direction:column;gap:12px}
+
+/* ---------- results: your finish (the results page's hero) ---------- */
+.k-fin{background:var(--k-navy);color:#fff;border-radius:4px;padding:20px;display:grid;grid-template-columns:auto 1fr;column-gap:16px;align-items:end;box-shadow:4px 4px 0 var(--k-royal);margin-right:4px}
+.k-fin .k-kick{grid-column:1/-1;margin-bottom:8px}
+.k-fin .k-big{font-size:80px}
+.k-fin .k-sc{font-size:16px;color:var(--k-gray);padding-bottom:6px}
+.k-fin .k-sc b{font-family:var(--k-disp);font-weight:900;font-size:32px;color:#fff}
+
+/* ---------- footer: Contact us, Instagram, team home; no logo ---------- */
+.k-ft{background:var(--k-navy);color:#fff}
+.k-ft .k-wrap{padding-top:24px;padding-bottom:40px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+.k-ft .k-links{display:flex;flex-direction:column;align-items:center}
+.k-ft .k-btn.k-auto{align-self:center}
+.k-ft .k-lnk{color:#fff}
+.k-ft .k-lnk:hover{color:var(--k-gray)}
+.k-ft .k-lnk:focus-visible{outline-color:#fff}
+.k-ft .link.org{color:var(--k-gray);align-self:center;padding-left:0;font-size:14px}
+@media (min-width:1024px){
+  .k-ft .k-wide .k-links{flex-direction:row;justify-content:center;gap:24px}
+}
+
+/* tryout-day pieces kept from before, in the kit's colors (score entry marks and the hole grid are unchanged) */
+.k-main .lb{border:1px solid var(--k-line);border-radius:4px}
+.k-main .mine-card{clip-path:none;border-radius:4px;box-shadow:4px 4px 0 var(--k-royal);margin-right:4px}
+.k-main .holebar,.k-main .prow{font-family:var(--k-text)}
+.k-main>.k-wrap.k-tight{gap:16px}
+.k-hd .skel{display:block;border-radius:4px;background:#fff;opacity:.16}

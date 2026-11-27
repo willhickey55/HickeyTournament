@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light only">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#14532d">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Hickey Tournament</title>
+<meta name="apple-mobile-web-app-title" content="Hickey Tournament">
+<meta name="description" content="Live scoring and the history of the Hickey Tournament.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Hickey Tournament">
+<meta property="og:title" content="Hickey Tournament · Live scoring">
+<meta property="og:description" content="Live leaderboard and every past champion.">
+<meta property="og:url" content="https://hickeytournament.vercel.app/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+</head>
+<body>
+<div id="app"></div>
+<!-- Vercel Web Analytics (Will, Oct 30): only on the live site, never in previews or tests. Cookieless. -->
+<script>if ('%MODE%' !== 'demo' && location.hostname === 'hickeytournament.vercel.app') { window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  var va = document.createElement('script'); va.defer = true; va.src = '/_vercel/insights/script.js'; document.head.appendChild(va); }</script>
+<!-- Save this page on the phone so it opens with no signal (/sw.js). Plain script so it runs even if Firebase can't load. Not in the preview build. -->
+<script>if ('%MODE%' !== 'demo' && 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) addEventListener('load', function () { try {
+  navigator.serviceWorker.register('/sw.js').catch(function () {});
+  navigator.serviceWorker.ready.then(function (r) { setTimeout(function () {
+    var keep = [location.pathname];
+    performance.getEntriesByType('resource').forEach(function (x) { if (/gstatic\.com\/firebasejs\/|fonts\.(googleapis|gstatic)\.com/.test(x.name)) keep.push(x.name); });
+    r.active && r.active.postMessage({ keep: keep });
+  }, 3000); });
+} catch (e) {} });</script>
+<script type="module" src="/src/main.tsx"></script>
+</body>
+</html>

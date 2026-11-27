@@ -1,0 +1,16 @@
+{
+  "redirects": [
+    { "source": "/history/", "destination": "/history", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/", "destination": "/site/index.html" },
+    { "source": "/history", "destination": "/site/index.html" },
+    { "source": "/sw.js", "destination": "/site/sw.js" }
+  ],
+  "headers": [
+    { "source": "/(.*)", "headers": [
+      { "key": "Cache-Control", "value": "no-cache" },
+      { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+    ] }
+  ]
+}

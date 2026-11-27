@@ -1,0 +1,6 @@
+/* /event scoring screens (src/shared/score.css): the header band takes the event's own main color (Look tab), and
+   match play takes the event's two side colors (Settings). The fallbacks are the standard UNH look. */
+#app{--sc-band:var(--band,#041e42);--sc-onband:var(--onband,#fff);--sc-bandmuted:var(--bandmuted,#bbbcbc);--sc-bandrule:var(--bandrule,rgba(187,188,188,.45));
+  --sc-a:var(--a,#003594);--sc-a-on:var(--a-on,#fff);--sc-a-edge:var(--a-edge-l,#003594);--sc-b:var(--b,#fff);--sc-b-on:var(--b-on,#041e42);--sc-b-edge:var(--b-edge-l,#041e42)}
+/* the board's live pop-ups never cover the scoring screen (one left over from the board would sit on the result buttons) */
+html:has(.sc-bar) .pops{display:none}

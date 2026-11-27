@@ -1,0 +1,8 @@
+# Keep the source, rules and notes out of the public site.
+app
+shared
+firebase
+.preview
+README.md
+CLAUDE.md
+.gitignore
