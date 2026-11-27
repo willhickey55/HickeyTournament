@@ -56,7 +56,8 @@ Read this first, then README.md.
 - `Head.tsx`: `HomeHead` (see-through logo `logo-clear.png` centered, "Saturday, June 12", "Crosswinds, Jones and Ouimet
   nines" from `courseLine`, Leaderboard/History pills = `SiteNav pills`) and `HistoryHead`. The exec strip nav only shows
   in the exec view of the live page. `redesign.css` (imported last) applies to every screen, exec too since Nov 26 (Will: the exec
-  board hadn't been redone); it forces --band navy, so the Look tab's main colour no longer shows anywhere. The exec view
+  board hadn't been redone); it forces --band navy. Look tab (Nov 26): main colour and "small text above the name"
+  settings removed and the old header preview gone; name, tagline, picture, tab title remain. The exec view
   uses `HomeHead` too (logo, date, pills, Player view button), then the exec tabs. Event link = the site root (EVENT_PATH '/'). Scoring screens: same fonts and navy (`--k-royal` -> navy), layout unchanged.
 - No team names (Will, Nov 26): `nameTeams()` in state.ts (runs in every `emit()`) sets each team's `name` to its
   players' first names ("Alex, Jake & Tom"; a shared first name gets the last initial); the stored name ("Team 1") is kept as `base` and shows only while a team is empty. The exec's
