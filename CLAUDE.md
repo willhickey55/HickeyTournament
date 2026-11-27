@@ -51,7 +51,7 @@ Read this first, then README.md.
 
 ## Redesign (Nov 26, branch `redesign`; draft canvas https://claude.ai/artifact/Qjt7MCWX4VHWeEJocyB3dG)
 - Will's picks: white page, logo's navy (#13233f) for text/buttons/cards, light gray fills (#f4f4f4), NO green outside the
-  logo, Libre Caslon Text (names, scores, headings) + Source Sans 3 (text). Built with the Hallmark + Impeccable floors in
+  logo, Archivo throughout (800 for names, scores, headings; Caslon + Source Sans was tried and dropped). Built with the Hallmark + Impeccable floors in
   mind: no tracked capitals, no eyebrows, no middle-dot meta strings, no hard offset shadows, no decorative status dots.
 - `Head.tsx`: `HomeHead` (see-through logo `logo-clear.png` centered, "Saturday, June 12", "Crosswinds, Jones and Ouimet
   nines" from `courseLine`, Leaderboard/History pills = `SiteNav pills`) and `HistoryHead`. The exec strip nav only shows
