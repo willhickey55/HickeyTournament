@@ -41,3 +41,7 @@ Read this first, then README.md.
   if Will wants visit counts.
 - Still to do (Will): sign in as exec once (creates events/current with the defaults), add past years on /history.
 - Preview (example data): https://claude.ai/artifact/1fgg4zd88MTeVmzN3BZw3g
+- Crosswinds (Nov 26): the tournament is always at Crosswinds Golf Club (Plymouth, MA), 27 holes in three nines (Jones,
+  Ouimet, Zaharias, par 36 each). `lib/courses.ts` (pars from Will's will-golf-stats course doc) + `CrosswindsPick` at the
+  top of Settings → Round: pick the front and back nine on the day, course name ("Crosswinds · Jones / Ouimet") and pars
+  fill in. Default course "Crosswinds Golf Club" with nothing picked. History editor suggests the six routes.

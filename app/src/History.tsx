@@ -3,6 +3,7 @@ import { useEffect, useState } from 'preact/hooks';
 import { deleteHistory, goPage, loadHistPhoto, saveHistory, setHistPhoto } from './actions';
 import { entryToForm, formToEntry, marginText, records, scoreText, teamLabel, type HistForm, type HistoryEntry } from './lib/history';
 import { fmtDate } from './lib/time';
+import { ALL_ROUTES } from './lib/courses';
 import { E, S, emit, toast } from './state';
 import { Confirm, Foot, Header, SecHead, ViewSwitch } from './ui';
 
@@ -124,7 +125,7 @@ function HistEditor({ id }: { id: string }) {
         <div class="inline">
           <div class="field"><label for="h-year">Year</label><input type="number" id="h-year" inputMode="numeric" value={f.year} onInput={set('year')} /></div>
           <div class="field"><label for="h-date">Date (optional)</label><input type="date" id="h-date" value={f.date} onInput={set('date')} /></div></div>
-        <div class="field"><label for="h-course">Course</label><input type="text" id="h-course" value={f.course} onInput={set('course')} /></div>
+        <div class="field"><label for="h-course">Course</label><input type="text" id="h-course" list="h-courses" value={f.course} placeholder="Crosswinds · Jones / Ouimet" onInput={set('course')} /><datalist id="h-courses">{ALL_ROUTES.map(c => <option value={c} />)}</datalist></div>
 
         <SecHead title="Champions" />
         <div class="field"><label for="h-team">Team name (optional)</label><input type="text" id="h-team" value={f.team} placeholder="Leave blank to show the players" onInput={set('team')} /></div>

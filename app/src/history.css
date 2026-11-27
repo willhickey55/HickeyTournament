@@ -83,3 +83,4 @@
    the mono capitals didn't fit). Blank = nothing (Boards.tsx). */
 .band .eyebrow,html:not(.exec) .band .eyebrow{font-family:var(--cond);font-size:14px;font-weight:600;letter-spacing:0;text-transform:none}
 .band .toprow:has(>.eyebrow:empty):has(>.hdr-r:empty){display:none}
+.cw{display:flex;flex-direction:column;gap:10px}
