@@ -30,3 +30,14 @@ Read this first, then README.md.
 - Settings → "Save this year to History" (`saveYearToHistory`): team leaderboard -> that year's doc (same year = update).
 - Routing: `S.page` from the path (`/history`, or `#history` in previews), `goPage` uses pushState. `SiteNav` strip.
 - Start a new event keeps name, look, format, holes, course and pars (Will's tournament is the same every year).
+
+## Status
+- LIVE Nov 26, 2026: https://hickeytournament.vercel.app (Vercel project `hickeytournament`, team wh-golf, preset Other,
+  root ./, no build). `firebase/firestore.rules` published Nov 26 7:56 PM with Will's OK (read back, same length).
+  hickeytournament.vercel.app added to Firebase Auth authorized domains.
+- GitHub flagged the Firebase web API key as a secret: expected (it's public by design); Will closes the alert.
+  Optional: restrict the key to the site's referrers in Google Cloud.
+- Vercel Web Analytics isn't on for this project, so /_vercel/insights/script.js 404s (harmless). Turn it on in Vercel
+  if Will wants visit counts.
+- Still to do (Will): sign in as exec once (creates events/current with the defaults), add past years on /history.
+- Preview (example data): https://claude.ai/artifact/1fgg4zd88MTeVmzN3BZw3g
