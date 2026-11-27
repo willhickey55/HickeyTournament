@@ -84,3 +84,8 @@
 .band .eyebrow,html:not(.exec) .band .eyebrow{font-family:var(--cond);font-size:14px;font-weight:600;letter-spacing:0;text-transform:none}
 .band .toprow:has(>.eyebrow:empty):has(>.hdr-r:empty){display:none}
 .cw{display:flex;flex-direction:column;gap:10px}
+/* Will, Nov 26: no monospace type on this site. The live line under the leaderboard reads as plain text
+   ("Live · last update 8:26 PM"), and anything else that used the mono font gets the page's own font. */
+#app{--mono:var(--cond)}
+.syncline{font-family:var(--cond);font-size:13px;font-weight:500;letter-spacing:0;text-transform:none}
+.syncline b{font-weight:700}
