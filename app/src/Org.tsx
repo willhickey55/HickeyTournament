@@ -3,7 +3,7 @@ import { confirmReset } from '../../shared/dialog';
 import { useState } from 'preact/hooks';
 import {
   addAdmin, addGroup, addPlayers, addTeam, autofill, deleteGroup, deleteTeam, downloadCsv, editEvent, movePlayer, moveTeam, newGroupCode,
-  removeAdmin, removePlayer, renamePlayer, renameTeam, reopenGroup, resetPhones, resetScorers, saveCourse, saveEvent, setCardHole, setHole, setMatchHole,
+  removeAdmin, removePlayer, renamePlayer, reopenGroup, resetPhones, resetScorers, saveCourse, saveEvent, setCardHole, setHole, setMatchHole,
   setMatchPlayer, setPar, saveYearToHistory, goPage, setPlayer, setStatus, startNewEvent, teamsFromGroups, updateGroup, useSavedCourse,
 } from './actions';
 import { Boards, EventBand, MatchList, Scorecard } from './Boards';
@@ -112,7 +112,7 @@ function Field() {
           {groups.length ? <Confirm id="tfg" cls="btn" label="Make each group a team" again="Tap again: one team per group" onYes={teamsFromGroups} /> : null}</div>
         {teams.map((t: Team) => <div class="gcard">
           <div class="inline">
-            <div class="field"><label for={'tn-' + t.id}>Team name</label><input type="text" id={'tn-' + t.id} value={t.name} onInput={ev => renameTeam(t.id, (ev.target as HTMLInputElement).value)} /></div>
+
             {teamBall(e) ? <div class="field"><label for={'tg-' + t.id}>Group</label><select id={'tg-' + t.id} value={t.groupId || ''} onChange={ev => moveTeam(t.id, (ev.target as HTMLSelectElement).value)}>{gopts}</select></div> : null}
           </div>
           <div class="toprow"><small class="note">{S.players.filter(p => p.teamId === t.id).map(p => p.name).join(', ') || 'No players yet'}</small>
@@ -330,7 +330,7 @@ function EditUnit() {
       <Header><Back label="← Back" eyebrow="Edit scores" onClick={backToOrg} /><h1 class="evname">{u.name}</h1>
         <p class="meta">{l.thru ? `${fmtOf(e) === 'stableford' ? l.pts + ' pts' : fmtPar(l.rel)} · ${l.strokes} strokes · ${l.done ? 'Final' : 'thru ' + l.thru}` : 'No scores yet'}</p></Header>
       <main><div class="wrap form">
-        <div class="field"><label for="ep-name">{isT ? 'Team' : 'Player'} name</label><input type="text" id="ep-name" value={u.name} onInput={ev => (isT ? renameTeam : renamePlayer)(u.id, (ev.target as HTMLInputElement).value)} /></div>
+        {isT ? null : <div class="field"><label for="ep-name">Player name</label><input type="text" id="ep-name" value={u.name} onInput={ev => renamePlayer(u.id, (ev.target as HTMLInputElement).value)} /></div>}
         <div class="field"><label>Status</label><Seg value={u.status || ''} opts={[['', 'Playing'], ['WD', 'WD (withdrew)'], ['DQ', 'DQ']]} onPick={v => setStatus(u.id, v)} /></div>
         <div class="field"><label>Scores (saves as you type)</label>
           <Scorecard units={[u]} editable={(x, h, v) => { clearTimeout(cellT[x.id + h]); cellT[x.id + h] = setTimeout(() => { const n = +v.trim(); setHole(x.id, h, v.trim() === '' ? null : (n >= 1 && n <= 15 ? n : null)); }, 600); }} /></div>

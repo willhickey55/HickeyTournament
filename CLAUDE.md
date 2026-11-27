@@ -58,3 +58,6 @@ Read this first, then README.md.
   in the exec view of the live page. `redesign.css` (imported last): public screens only (`html:not(.exec)`) except the
   fonts; forces --band navy over the Look tab colour on public screens, so the Look tab's main colour now only shows to
   the exec. Scoring screens: same fonts and navy (`--k-royal` -> navy), layout unchanged.
+- No team names (Will, Nov 26): `nameTeams()` in state.ts (runs in every `emit()`) sets each team's `name` to its
+  players ("A, B & C"); the stored name ("Team 1") is kept as `base` and shows only while a team is empty. The exec's
+  team-name boxes are gone. History: no team-name fields; `teamLabel` = the players; "Repeat team champions" removed.

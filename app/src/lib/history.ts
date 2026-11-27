@@ -96,10 +96,11 @@ export function formToEntry(f: HistForm): Omit<HistoryEntry, 'id' | 'createdAt' 
   const year = Math.round(+f.year);
   if (!f.year.trim() || !isFinite(year) || year < 1950 || year > 2100) return 'Enter the year (like 2019).';
   const players = cleanNames(f.players);
-  if (!f.team.trim() && !players.length) return 'Enter the winning team or its players.';
+  if (!players.length) return 'Enter the winning players.';
   const par = (s: string) => { const v = s.trim().replace(/^e$/i, '0').replace('−', '-').replace(/^\+/, ''); return v === '' ? null : num(v); };
-  const team = (name: string, pl: string, sc: string, tp: string): HistTeam => ({ name: name.trim(), players: cleanNames(pl), score: num(sc.trim()), toPar: par(tp) });
-  const field = f.field.filter(r => r.name.trim() || r.players.trim()).map(r => team(r.name, r.players, r.score, r.toPar));
+  // no team names (Will, Nov 26): a team is its players
+  const team = (_name: string, pl: string, sc: string, tp: string): HistTeam => ({ name: '', players: cleanNames(pl), score: num(sc.trim()), toPar: par(tp) });
+  const field = f.field.filter(r => r.players.trim()).map(r => team(r.name, r.players, r.score, r.toPar));
   return { year, date: f.date || '', course: f.course.trim(), champ: { ...team(f.team, f.players, f.score, f.toPar), pos: 1 }, field, note: f.note.trim() };
 }
 export function entryToForm(e: HistoryEntry | null): HistForm {
@@ -110,4 +111,5 @@ export function entryToForm(e: HistoryEntry | null): HistForm {
     field: (e.field || []).map(t => ({ name: t.name || '', players: (t.players || []).join(', '), score: s(t.score), toPar: tp(t.toPar) })) };
 }
 /** A team's display name: its name, or its players. */
-export const teamLabel = (t: HistTeam) => t.name || (t.players || []).join(' & ') || 'Unknown';
+export const teamLabel = (t: HistTeam) => joinNames(t.players || []) || t.name || 'Unknown';
+const joinNames = (ns: string[]) => (ns.length < 3 ? ns.join(' & ') : ns.slice(0, -1).join(', ') + ' & ' + ns[ns.length - 1]);

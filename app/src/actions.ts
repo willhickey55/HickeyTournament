@@ -564,7 +564,7 @@ export async function setHistPhoto(id: string, data: string) {
 /** Settings → "Save this year to history": the final team leaderboard becomes this year's entry. */
 export async function saveYearToHistory(): Promise<string> {
   const c = C(), e = E();
-  const rows = teamRows(c).map(r => ({ pos: r.pos, name: r.u.name, players: c.players.filter(p => p.teamId === r.u.id).sort(byOrder).map(p => p.name), strokes: r.strokes, rel: r.rel }));
+  const rows = teamRows(c).map(r => ({ pos: r.pos, name: '', players: c.players.filter(p => p.teamId === r.u.id).sort(byOrder).map(p => p.name), strokes: r.strokes, rel: r.rel }));
   const year = +(e.date || '').slice(0, 4) || new Date().getFullYear();
   const entry = entryFromBoard(year, e.date, e.course, rows);
   if (!entry) throw new Error('No team scores yet: the leaderboard is empty.');
