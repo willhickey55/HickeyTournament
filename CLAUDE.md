@@ -49,7 +49,7 @@ Read this first, then README.md.
   fill in. Default course "Crosswinds Golf Club" with nothing picked. Tapping a picked nine un-picks it (Will, Nov 26):
   its holes keep their pars; "Crosswinds · back nine X" when only the back is picked. History editor suggests the six routes.
 
-## Redesign (Nov 26, branch `redesign`; draft canvas https://claude.ai/artifact/Qjt7MCWX4VHWeEJocyB3dG)
+## Redesign (Nov 26; LIVE: PR #1 merged Nov 26 ~9:06 PM with Will's OK, branch `redesign` can be deleted; draft canvas https://claude.ai/artifact/Qjt7MCWX4VHWeEJocyB3dG)
 - Will's picks: white page, logo's navy (#13233f) for text/buttons/cards, light gray fills (#f4f4f4), NO green outside the
   logo, Archivo throughout (800 for names, scores, headings; Caslon + Source Sans was tried and dropped). Built with the Hallmark + Impeccable floors in
   mind: no tracked capitals, no eyebrows, no middle-dot meta strings, no hard offset shadows, no decorative status dots.
