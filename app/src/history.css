@@ -93,3 +93,4 @@
 .band .headline{align-items:center}
 .band .headline img{width:88px;margin-bottom:0}
 @media (max-width:420px){.band .headline img{width:68px}}
+.h-place{margin:0;font-weight:700;align-self:center}

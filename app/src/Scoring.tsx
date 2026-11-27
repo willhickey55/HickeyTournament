@@ -7,7 +7,9 @@
 import type { ComponentChildren } from 'preact';
 import { useState } from 'preact/hooks';
 import { lastScore, undoLastScore, undoOpen, queuedScores, submission, flushScores, sends, setCardHole, setHole, setMatchHole, submitScores } from './actions';
-import { FORMATS, MTYPES, fmtAt, fmtOf, nH, oneBallAt, parOf, sideName, splitOn } from './lib/event';
+import { FORMATS, MTYPES, fmtAt, fmtOf, isTeam, nH, oneBallAt, parOf, sideName, splitOn } from './lib/event';
+import { individualRows, teamRows } from './lib/scoring';
+import { revealed } from './lib/time';
 import { PARTS, contestHasHole, contestLive, contestStatus, contestsOf, cardLabel, fmtPar, groupDone, holeSeq, line, mPlayers, mstatus, namesOf, ownHoles, resultKey, scoreName, skinsRows, strokeKey, teamLine, unitHoles, unitsAt, unitsIn, type Contest } from './lib/scoring';
 import type { Group, MatchResult, Side, Unit } from './lib/types';
 import { countingAt, firstName, lastName, matchWords, plural, pointsWords, shortNames, shortSide, sideHole, sideLetters, skinAt, stabPts, strokeTotals, type Words } from './lib/words';
@@ -174,6 +176,7 @@ export function Scoring() {
         {live}
         <div class="sc-rows">{rows}</div>
         <Grid seq={seq} cell={cell} />
+        <MiniBoard gid={g.id} />
       </div></main>
       <Bar>
         <GoBackFloat h={h} />
@@ -186,6 +189,25 @@ export function Scoring() {
       </Bar>
     </>
   );
+}
+
+/** The leaderboard under the hole grid on the scoring screen (Will, Nov 26), so the scorer can see where everyone stands
+    without leaving the card. Same rows as the main board; this group's team(s) highlighted. Hidden while the exec keeps
+    the leaderboard hidden. */
+function MiniBoard({ gid }: { gid: string }) {
+  const e = E(), c = C();
+  if (!revealed(e) && !S.canOrg) return null;
+  const team = isTeam(e), rows = team ? teamRows(c) : individualRows(c), stab = fmtOf(e) === 'stableford';
+  if (!rows.length || fmtOf(e) === 'skins') return null;
+  const mine = new Set(unitsIn(c, gid).map(u => u.id));
+  return <section class="sc-mini" aria-label="Leaderboard">
+    <h2 class="sc-sech">Leaderboard</h2>
+    <div class="lb">
+      <div class="lbrow head"><span>Pos</span><span>{team ? 'Team' : 'Player'}</span><span style="text-align:right">{stab ? 'Pts' : 'Par'}</span><span style="text-align:right">Thru</span><span style="text-align:right">{stab ? 'Str' : 'Tot'}</span></div>
+      {rows.map(r => <div class={'lbrow' + (mine.has(r.u.id) ? ' me' : '')}><span class="pos">{(r.tie ? 'T' : '') + r.pos}</span><span class="nm">{r.u.name}</span>
+        <span class="num">{stab ? r.pts : fmtPar(r.rel)}</span><span class="sm">{r.done ? 'F' : r.thru}</span><span class="sm">{r.strokes}</span></div>)}
+    </div>
+  </section>;
 }
 
 /** Review scores (Will, Nov 21): the whole card big, holes down the side, one column per player (or team), Out / In /

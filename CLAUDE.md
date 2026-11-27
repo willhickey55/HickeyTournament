@@ -48,3 +48,24 @@ Read this first, then README.md.
   top of Settings → Round: pick the front and back nine on the day, course name ("Crosswinds · Jones / Ouimet") and pars
   fill in. Default course "Crosswinds Golf Club" with nothing picked. Tapping a picked nine un-picks it (Will, Nov 26):
   its holes keep their pars; "Crosswinds · back nine X" when only the back is picked. History editor suggests the six routes.
+
+## Redesign (Nov 26, branch `redesign`; draft canvas https://claude.ai/artifact/Qjt7MCWX4VHWeEJocyB3dG)
+- Will's picks: white page, logo's navy (#13233f) for text/buttons/cards, light gray fills (#f4f4f4), NO green outside the
+  logo, Archivo throughout (800 for names, scores, headings; Caslon + Source Sans was tried and dropped). Built with the Hallmark + Impeccable floors in
+  mind: no tracked capitals, no eyebrows, no middle-dot meta strings, no hard offset shadows, no decorative status dots.
+- `Head.tsx`: `HomeHead` (see-through logo `logo-clear.png` centered, "Saturday, June 12", "Crosswinds, Jones and Ouimet
+  nines" from `courseLine`, Leaderboard/History pills = `SiteNav pills`) and `HistoryHead`. The exec strip nav only shows
+  in the exec view of the live page. `redesign.css` (imported last): public screens only (`html:not(.exec)`) except the
+  fonts; forces --band navy over the Look tab colour on public screens, so the Look tab's main colour now only shows to
+  the exec. Scoring screens: same fonts and navy (`--k-royal` -> navy), layout unchanged.
+- No team names (Will, Nov 26): `nameTeams()` in state.ts (runs in every `emit()`) sets each team's `name` to its
+  players' first names ("Alex, Jake & Tom"; a shared first name gets the last initial); the stored name ("Team 1") is kept as `base` and shows only while a team is empty. The exec's
+  team-name boxes are gone. History: no team-name fields; `teamLabel` = the players; "Repeat team champions" removed.
+- One team (3 or 4 players) per tee time (Will, Nov 26): MyCard says "Your team" and "Your scorecard" when the group holds
+  exactly one team. Exec: Groups by tee time, then Field → "Make each group a team". Demo "Scramble" = 4 teams of 3.
+- Scoring screen has a leaderboard under the hole grid (`MiniBoard` in Scoring.tsx; hidden while the board is hidden).
+- Fixed: the player scorecard's `table.sc9.teams` picked up base.css `.teams{display:grid}` (laptop layout broke);
+  the class is `tms` now. The same bug is likely in unh-golf events-app (not changed there).
+- Laptop layout (Will, Nov 26): >=1024px the live page is a grid (`.pl-grid` in Player.tsx / redesign.css): header, your
+  team card + scorecard and last year's champions on the left (360px), leaderboard on the right. `main` and its `.wrap`
+  are display:contents there. Phones unchanged (one column).

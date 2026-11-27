@@ -244,7 +244,7 @@ table.sc9{border-collapse:collapse;width:100%;table-layout:fixed;font-variant-nu
 table.sc9 th,table.sc9 td{text-align:center;padding:5px 0;border-bottom:1px solid var(--rule);font-size:14px}
 table.sc9 th{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--muted)}
 table.sc9 .nm{width:22%;text-align:left;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:4px}
-table.sc9.teams td.nm{white-space:normal;overflow-wrap:anywhere;font-size:12px;line-height:1.15}
+table.sc9.tms td.nm{white-space:normal;overflow-wrap:anywhere;font-size:12px;line-height:1.15}
 table.sc9 th.nm{font-weight:600}
 table.sc9 tr.par td{font-family:var(--mono);font-size:11px;color:var(--muted);border-bottom:2px solid var(--ink)}
 table.sc9 .sub{width:11%;background:var(--panel);font-weight:700;color:var(--ink)}

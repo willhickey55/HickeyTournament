@@ -83,10 +83,10 @@ export function DemoBar() {
 }
 
 /** The two pages of the site: the live tournament and its history. */
-export function SiteNav() {
+export function SiteNav({ pills }: { pills?: boolean }) {
   const live = S.page !== 'history', go = (p: 'live' | 'history') => (ev: Event) => { ev.preventDefault(); goPage(p); };
-  return <nav class="sitenav" aria-label="Site"><div class="wrap">
-    <a href="/" class={live ? 'on' : ''} aria-current={live ? 'page' : undefined} onClick={go('live')}>{S.ev?.date && +String(S.ev.date).slice(0, 4) ? String(S.ev.date).slice(0, 4) + ' tournament' : 'Live scoring'}</a>
+  return <nav class={'sitenav' + (pills ? ' pills' : '')} aria-label="Site"><div class="wrap">
+    <a href="/" class={live ? 'on' : ''} aria-current={live ? 'page' : undefined} onClick={go('live')}>{pills ? 'Leaderboard' : S.ev?.date && +String(S.ev.date).slice(0, 4) ? String(S.ev.date).slice(0, 4) + ' tournament' : 'Live scoring'}</a>
     <a href="/history" class={live ? '' : 'on'} aria-current={live ? undefined : 'page'} onClick={go('history')}>History</a>
   </div></nav>;
 }

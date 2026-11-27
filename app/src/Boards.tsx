@@ -70,16 +70,12 @@ export function Boards({ orgView }: { orgView: boolean }) {
   if (!isTeam(e)) return <><SecHead title="Leaderboard" /><BoardTable rows={individualRows(c)} outs={outsRows(c)} show={show} orgView={orgView} kind={f === 'stableford' ? 'pts' : 'par'} /><SyncLine /></>;
   return (
     <div class="twoboards"><div>
-      <SecHead title="Team leaderboard" />
+      <SecHead title="Leaderboard" />
       <BoardTable rows={teamRows(c)} outs={oneBall(e) && !splitOn(e) ? outsRows(c) : []} show={show} orgView={orgView} kind="team" /><SyncLine />
       {playerBall(e) && (e.showIndividual || orgView) ? <><SecHead title="Individual" /><BoardTable rows={individualRows(c)} outs={outsRows(c)} show={show} orgView={orgView} kind="par" /></> : null}
     </div></div>
   );
 }
-
-/** Partners under a team row: last names ("Bisbee, Mansfield") so the line fits a phone. A one- or two-letter "last
-    name" (an initial, or the demo's "Example Golfer A") isn't enough to know who it is, so that keeps the full name. */
-const partnerName = (n: string) => { const l = (n || '').trim().split(/\s+/).pop() || ''; return l.replace(/\W/g, '').length > 2 ? l : n; };
 
 function edit(id: string) { S.editId = id; S.view = 'edit'; emit(); window.scrollTo(0, 0); }
 
@@ -93,7 +89,8 @@ function BoardTable({ rows, outs, show, orgView, kind }: { rows: Row[]; outs: Li
   const sub = (r: Row) => {
     if (kind === 'skins') return r.won && r.won.length ? <span class="teamtag" style="display:block">Won {r.won.map(h => '#' + h).join(', ')}</span> : null;
     // split format: each nine's score too (front best ball, back scramble...)
-    if (kind === 'team' && (!oneBall(e) || splitOn(e))) return <span class="teamtag" style="display:block">{S.players.filter(p => p.teamId === r.u.id).map(p => partnerName(p.name)).join(', ')}{r.nines ? ` · Front ${fmtPar(r.nines[0])}, back ${fmtPar(r.nines[1])}` : ''}</span>;
+    // the team's name is already its players (state.ts nameTeams), so only the split-format nines go under it
+    if (kind === 'team' && (!oneBall(e) || splitOn(e))) return r.nines ? <span class="teamtag" style="display:block">Front {fmtPar(r.nines[0])}, back {fmtPar(r.nines[1])}</span> : null;
     const t = kind !== 'team' && (r.u as any).teamId ? teamById((r.u as any).teamId) : null;
     return t ? <span class="teamtag" style="display:block">{t.name}</span> : null;
   };
@@ -138,7 +135,7 @@ function NineCard({ units }: { units: Unit[] }) {
   const rel = (l: ReturnType<typeof line>) => stab ? `${l.pts} pts` : fmtPar(l.rel);
   return <div class="ncard">{nines.map(([a, b, lab], i) => {
     const hs = Array.from({ length: b - a + 1 }, (_, k) => a + k), last = i === nines.length - 1, more = last;
-    return <table class={'sc9' + (units.some(isTeam) ? ' teams' : '')}>
+    return <table class={'sc9' + (units.some(isTeam) ? ' tms' : '')}>
       <thead><tr><th class="nm">Hole</th>{hs.map(h => <th>{h}</th>)}<th class="sub">{lab}</th>{more ? <th class="sub">{backOn ? 'Tot' : stab ? 'Pts' : '±'}</th> : null}</tr></thead>
       <tbody>
         <tr class="par"><td class="nm">Par</td>{hs.map(h => <td>{parOf(e, h)}</td>)}<td class="sub">{parSum(a, b)}</td>{more ? <td class="sub">{backOn ? parSum(1, n) : ''}</td> : null}</tr>

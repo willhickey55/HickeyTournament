@@ -51,7 +51,7 @@ describe('history', () => {
     expect(formToEntry({ ...blank, year: '' })).toMatch(/year/);
     expect(formToEntry({ ...blank, year: '2019' })).toMatch(/winning/);
     const out = formToEntry({ ...blank, year: '2019', players: 'Will, Dad', toPar: 'E', score: '72', field: [{ name: 'Mom team', players: 'Mom', score: '', toPar: '+2' }, { name: '', players: '', score: '', toPar: '' }] });
-    expect(out).toMatchObject({ year: 2019, champ: { players: ['Will', 'Dad'], toPar: 0, score: 72 }, field: [{ name: 'Mom team', toPar: 2, score: null }] });
+    expect(out).toMatchObject({ year: 2019, champ: { players: ['Will', 'Dad'], toPar: 0, score: 72 }, field: [{ name: '', players: ['Mom'], toPar: 2, score: null }] });
     const f = entryToForm({ id: 'x', ...(out as any) });
     expect(f).toMatchObject({ year: '2019', players: 'Will, Dad', toPar: 'E', score: '72' });
   });

@@ -3,9 +3,10 @@ import { useEffect, useState } from 'preact/hooks';
 import { deleteHistory, goPage, loadHistPhoto, saveHistory, setHistPhoto } from './actions';
 import { entryToForm, formToEntry, marginText, records, scoreText, teamLabel, type HistForm, type HistoryEntry } from './lib/history';
 import { fmtDate } from './lib/time';
+import { HistoryHead } from './Head';
 import { ALL_ROUTES } from './lib/courses';
-import { E, S, emit, toast } from './state';
-import { Confirm, Foot, Header, SecHead, ViewSwitch, logoOf } from './ui';
+import { S, emit, toast } from './state';
+import { Confirm, Foot, Header, SecHead } from './ui';
 
 const editing = () => S.canOrg && !S.asPlayer;
 
@@ -14,11 +15,7 @@ export function HistoryPage() {
   if (S.histEdit && editing()) return <HistEditor id={S.histEdit} />;
   return (
     <>
-      <Header>
-        <div class="toprow"><div class="eyebrow">{E().eyebrow || ''}</div><span class="hdr-r"><ViewSwitch /></span></div>
-        <div class="headline">{logoOf(E()) ? <img src={logoOf(E())} alt="" /> : null}<h1 class="evname">History</h1></div>
-        <p class="fmtline">{r.years ? `${r.years} ${r.years === 1 ? 'tournament' : 'tournaments'} · since ${first}` : 'Every champion, every year'}</p>
-      </Header>
+      <HistoryHead years={r.years} first={first} />
       <main><div class="wrap h-wrap">
         {!S.histReady ? <div class="skpage" role="status" aria-label="Loading"><span class="sk big" /><span class="sk row" /><span class="sk row" /></div>
           : <div class="h-cols">
@@ -43,8 +40,8 @@ function Photo({ e }: { e: HistoryEntry }) {
 }
 
 function Champion({ e, hero }: { e: HistoryEntry; hero?: boolean }) {
-  const c = e.champ, where = [e.date ? fmtDate(e.date) : '', e.course].filter(Boolean).join(' · '), sc = scoreText(c);
-  const names = c.name && c.players?.length ? c.players.join(', ') : '';
+  const c = e.champ, where = [e.date ? fmtDate(e.date) : '', e.course].filter(Boolean).join(', '), sc = scoreText(c);
+  const names = ''; // the heading is already the players (no team names)
   return (
     <article class={'h-card' + (hero ? ' hero' : '')}>
       <Photo e={e} />
@@ -55,7 +52,7 @@ function Champion({ e, hero }: { e: HistoryEntry; hero?: boolean }) {
         {where ? <p class="h-where">{where}</p> : null}
         {e.note ? <p class="h-note">{e.note}</p> : null}
         {e.field?.length ? <details class="h-field"><summary>Full results ({e.field.length + 1} teams)</summary>
-          <ol>{[{ ...c, pos: 1 }, ...e.field].map((t, i) => <li><span class="h-pos">{t.pos || i + 1}</span><span class="h-fn"><b>{teamLabel(t)}</b>{t.name && t.players?.length ? <small>{t.players.join(', ')}</small> : null}</span><span class="h-fs">{scoreText(t)}</span></li>)}</ol>
+          <ol>{[{ ...c, pos: 1 }, ...e.field].map((t, i) => <li><span class="h-pos">{t.pos || i + 1}</span><span class="h-fn"><b>{teamLabel(t)}</b></span><span class="h-fs">{scoreText(t)}</span></li>)}</ol>
         </details> : null}
         {editing() ? <div class="h-edit"><button class="btn" onClick={() => { S.histEdit = e.id; emit(); window.scrollTo(0, 0); }}>Edit {e.year}</button></div> : null}
       </div>
@@ -72,7 +69,6 @@ function Records({ list }: { list: HistoryEntry[] }) {
       {r.lowest ? <div class="h-block"><h4>Lowest winning score</h4><p class="h-big">{r.lowest.text}</p><p>{teamLabel(r.lowest.e.champ)}, {r.lowest.e.year}</p></div> : null}
       {r.biggest ? <div class="h-block"><h4>Biggest win</h4><p class="h-big">{r.biggest.by} {r.biggest.by === 1 ? 'shot' : 'shots'}</p><p>{teamLabel(r.biggest.e.champ)} over {teamLabel(r.biggest.second)}, {r.biggest.e.year}</p></div> : null}
       {r.closest && (!r.biggest || r.closest.e.id !== r.biggest.e.id) ? <div class="h-block"><h4>Closest finish</h4><p class="h-big">{r.closest.by === 0 ? 'Playoff' : r.closest.by + (r.closest.by === 1 ? ' shot' : ' shots')}</p><p>{teamLabel(r.closest.e.champ)} {marginText(r.closest.by)} over {teamLabel(r.closest.second)}, {r.closest.e.year}</p></div> : null}
-      {r.teamTitles.length ? <div class="h-block"><h4>Repeat team champions</h4><ol class="h-titles">{r.teamTitles.map(t => <li><span>{t.name}</span><b>{t.n}</b><small>{t.years.join(', ')}</small></li>)}</ol></div> : null}
     </div>
   );
 }
@@ -81,7 +77,7 @@ function Records({ list }: { list: HistoryEntry[] }) {
 export function LastChamps() {
   const e = S.history[0]; if (!e) return null;
   return <button class="h-last" onClick={() => goPage('history')}><span class="lbl">{e.year} champions</span><b>{teamLabel(e.champ)}</b>
-    {e.champ.name && e.champ.players?.length ? <small>{e.champ.players.join(', ')}</small> : null}<span class="h-more">All past champions →</span></button>;
+    <span class="h-more">See every past champion</span></button>;
 }
 
 /* ---------- exec editor ---------- */
@@ -128,7 +124,6 @@ function HistEditor({ id }: { id: string }) {
         <div class="field"><label for="h-course">Course</label><input type="text" id="h-course" list="h-courses" value={f.course} placeholder="Crosswinds · Jones / Ouimet" onInput={set('course')} /><datalist id="h-courses">{ALL_ROUTES.map(c => <option value={c} />)}</datalist></div>
 
         <SecHead title="Champions" />
-        <div class="field"><label for="h-team">Team name (optional)</label><input type="text" id="h-team" value={f.team} placeholder="Leave blank to show the players" onInput={set('team')} /></div>
         <div class="field"><label for="h-pl">Players</label><input type="text" id="h-pl" value={f.players} placeholder="Will Hickey, Dad, Uncle Mike" onInput={set('players')} /><small class="note">Separate names with commas. Use the same spelling every year so Most titles adds them up.</small></div>
         <div class="inline">
           <div class="field"><label for="h-sc">Score</label><input type="number" id="h-sc" inputMode="numeric" value={f.score} placeholder="64" onInput={set('score')} /></div>
@@ -138,7 +133,7 @@ function HistEditor({ id }: { id: string }) {
 
         <SecHead title="Rest of the field" small="optional" />
         {f.field.map((r, i) => <div class="h-frow">
-          <div class="inline"><div class="field"><label for={'hf-n' + i}>{i + 2}{['nd', 'rd'][i] || 'th'} place team</label><input type="text" id={'hf-n' + i} value={r.name} onInput={ev => setRow(i, 'name', (ev.target as HTMLInputElement).value)} /></div>
+          <div class="inline"><p class="h-place">{i + 2}{['nd', 'rd'][i] || 'th'} place</p>
             <div class="field"><label for={'hf-s' + i}>Score</label><input type="number" id={'hf-s' + i} value={r.score} onInput={ev => setRow(i, 'score', (ev.target as HTMLInputElement).value)} /></div>
             <div class="field"><label for={'hf-t' + i}>To par</label><input type="text" id={'hf-t' + i} value={r.toPar} onInput={ev => setRow(i, 'toPar', (ev.target as HTMLInputElement).value)} /></div></div>
           <div class="field"><label for={'hf-p' + i}>Players</label><input type="text" id={'hf-p' + i} value={r.players} onInput={ev => setRow(i, 'players', (ev.target as HTMLInputElement).value)} /></div>
