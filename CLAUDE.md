@@ -44,4 +44,5 @@ Read this first, then README.md.
 - Crosswinds (Nov 26): the tournament is always at Crosswinds Golf Club (Plymouth, MA), 27 holes in three nines (Jones,
   Ouimet, Zaharias, par 36 each). `lib/courses.ts` (pars from Will's will-golf-stats course doc) + `CrosswindsPick` at the
   top of Settings → Round: pick the front and back nine on the day, course name ("Crosswinds · Jones / Ouimet") and pars
-  fill in. Default course "Crosswinds Golf Club" with nothing picked. History editor suggests the six routes.
+  fill in. Default course "Crosswinds Golf Club" with nothing picked. Tapping a picked nine un-picks it (Will, Nov 26):
+  its holes keep their pars; "Crosswinds · back nine X" when only the back is picked. History editor suggests the six routes.

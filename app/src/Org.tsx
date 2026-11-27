@@ -379,7 +379,7 @@ function Settings() {
       <CrosswindsPick />
       <div class="inline"><div class="field"><label for="s-date">Date</label><input type="date" id="s-date" value={e.date} onInput={txt('date')} /></div>
         <div class="field"><label for="s-course">Course</label><input type="text" id="s-course" value={e.course} onInput={txt('course')} /></div></div>
-      <div class="field"><label>Holes</label><Seg value={nH(e)} opts={[[9, '9 holes'], [18, '18 holes']]} onPick={v => { const cw = ninesOf(e.course); saveEvent({ holes: +v, ...(cw.length ? crosswinds(cw[0], +v === 18 ? cw[1] : undefined) : {}) }); }} /></div>
+      <div class="field"><label>Holes</label><Seg value={nH(e)} opts={[[9, '9 holes'], [18, '18 holes']]} onPick={v => { const cw = ninesOf(e.course); saveEvent({ holes: +v, ...(cw.length ? crosswinds(cw[0], +v === 18 ? cw[1] : '', e.pars || []) : {}) }); }} /></div>
       <div class="srow"><div><b>Saved course</b><small>{S.savedCourse ? `${S.savedCourse.course || 'Unnamed course'} · par ${(S.savedCourse.pars || []).slice(0, 18).reduce((a, b) => a + (+b || 0), 0)}` : 'Standard par 72 (built in)'}</small></div>
         <span class="hdr-r"><button class="btn" onClick={useSavedCourse}>Use saved</button><button class="btn" onClick={saveCourse}>Save current</button></span></div>
       <div class="field"><label>Par for each hole ({Array.from({ length: nH(e) }, (_, i) => parOf(e, i + 1)).reduce((a, b) => a + b, 0)} total)</label>
@@ -409,19 +409,20 @@ function Settings() {
     the course name and pars fill in. The boxes below still work for anywhere else. */
 function CrosswindsPick() {
   const e = E(), n9 = nH(e) === 9, cur = ninesOf(e.course), front = cur[0] || '', back = cur[1] || '';
-  const pick = (f: string, b: string) => {
-    if (n9) { saveEvent(crosswinds(f)); toast('Crosswinds · ' + f); return; }
-    const bb = b && b !== f ? b : NINE_NAMES.find(x => x !== f)!;
-    saveEvent(crosswinds(f, bb)); toast(`Crosswinds · ${f} / ${bb}`);
-  };
+  // tap a picked nine again to un-pick it (Will, Nov 26); its holes keep whatever pars they had
+  const set = (f: string, b: string) => { const c = crosswinds(f, n9 ? '' : b, e.pars || []); saveEvent(c); toast(c.course); };
+  const pickFront = (v: string) => set(v === front ? '' : v, back === v ? '' : back);
+  const pickBack = (v: string) => set(front, v === back ? '' : v);
   const played = S.players.length && Object.keys(S.scores).length;
   return (
     <div class="cw">
       <div class="field"><label>{n9 ? 'Crosswinds nine' : 'Crosswinds front nine'}</label>
-        <Seg value={front} opts={NINE_NAMES.map(x => [x, x] as [string, string])} onPick={v => pick(v, back)} /></div>
+        <Seg value={front} opts={NINE_NAMES.map(x => [x, x] as [string, string])} onPick={pickFront} /></div>
       {n9 ? null : <div class="field"><label>Back nine</label>
-        <Seg value={back} opts={NINE_NAMES.filter(x => x !== front).map(x => [x, x] as [string, string])} onPick={v => pick(front || NINE_NAMES.find(x => x !== v)!, v)} /></div>}
-      <small class="note">{front ? `Pars are set for ${n9 ? front : front + ' then ' + (back || '…')} (par ${(e.pars || []).slice(0, nH(e)).reduce((a, b) => a + (+b || 0), 0)}).` : 'Pick the nines once you know them on the day. The course name and every par fill in.'}{played ? ' Scores already entered stay on their hole numbers.' : ''}</small>
+        <Seg value={back} opts={NINE_NAMES.filter(x => x !== front).map(x => [x, x] as [string, string])} onPick={pickBack} /></div>}
+      <small class="note">{front && (back || n9) ? `Pars are set for ${n9 ? front : front + ' then ' + back} (par ${(e.pars || []).slice(0, nH(e)).reduce((a, b) => a + (+b || 0), 0)}). Tap a nine again to un-pick it.`
+        : front || back ? `Pick the ${front ? 'back' : 'front'} nine too. Tap a nine again to un-pick it.`
+        : 'Pick the nines once you know them on the day. The course name and every par fill in.'}{played ? ' Scores already entered stay on their hole numbers.' : ''}</small>
     </div>
   );
 }
