@@ -38,7 +38,7 @@ function useLook() {
       root.style.setProperty('--' + k, v.c); root.style.setProperty('--' + k + '-on', v.on);
       root.style.setProperty('--' + k + '-edge-l', v.el); root.style.setProperty('--' + k + '-edge-d', v.ed); root.style.setProperty('--' + k + '-bar', v.bar || v.c);
     }
-    if (e) document.title = S.page === 'history' ? 'History · ' + (e.eyebrow || 'Hickey Tournament') : e.tabTitle || e.name || 'Hickey Tournament';
+    if (e) document.title = S.page === 'history' ? 'History · ' + (e.eyebrow || e.name || 'Hickey Tournament') : e.tabTitle || e.name || 'Hickey Tournament';
   }, [key]);
 }
 

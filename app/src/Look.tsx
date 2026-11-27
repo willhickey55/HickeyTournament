@@ -37,7 +37,7 @@ export function Look() {
 
       <SecHead title="Header" />
       <div class="field"><label for="l-name">Event name</label><input type="text" id="l-name" maxLength={80} value={e.name} onInput={txt('name')} /></div>
-      <div class="field"><label for="l-eye">Small text above the name</label><input type="text" id="l-eye" maxLength={60} value={e.eyebrow || ''} placeholder="Hickey Tournament" onInput={txt('eyebrow')} /></div>
+      <div class="field"><label for="l-eye">Small text above the name</label><input type="text" id="l-eye" maxLength={60} value={e.eyebrow || ''} placeholder="Leave blank for none" onInput={txt('eyebrow')} /><small class="note">Blank = nothing shows.</small></div>
       <div class="field"><label for="l-tag">Tagline (optional)</label><input type="text" id="l-tag" maxLength={120} value={e.tagline || ''} placeholder="The family scramble" onInput={txt('tagline')} /><small class="note">A short line under the name.</small></div>
 
       <div class="field"><label>Main color</label>

@@ -20,7 +20,7 @@ export function EventBand({ preview }: { preview?: boolean }) {
   const [txt, on] = chip(e, S.groups);
   return (
     <>
-      <div class="toprow"><div class="eyebrow">{S.org && !preview ? 'Exec' : (e.eyebrow || 'Hickey Tournament')}</div>
+      <div class="toprow"><div class="eyebrow">{S.org && !preview ? 'Exec' : (e.eyebrow || '')}</div>
         <span class="hdr-r">{preview ? null : <ViewSwitch />}<span class={'chip' + (on ? ' on' : '')}>{txt}</span></span></div>
       <Headline title={e.name} e={e} />
       {e.tagline ? <p class="meta tagline">{e.tagline}</p> : null}

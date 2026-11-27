@@ -35,7 +35,7 @@ async function cupImage(box = 1350, W = 1080) {
   const P = 72, src = logoOf(e);
   let tx = P;
   if (src) { try { const img = new Image(); img.src = src; await img.decode(); const h = 120, w = img.width * h / img.height; x.drawImage(img, P, P, w, h); tx = P + Math.min(w, 160) + 20; } catch (_) { /* no picture */ } }
-  txt((e.eyebrow || 'Hickey Tournament').toUpperCase(), tx, P + 44, '700 #px ' + T, 28, W - tx - P, '#bbbcbc');
+  txt((e.eyebrow || '').toUpperCase(), tx, P + 44, '700 #px ' + T, 28, W - tx - P, '#bbbcbc');
   txt(String(e.name || 'The Hickey Tournament').toUpperCase(), tx, P + 112, '900 #px ' + D, 72, W - tx - P, '#ffffff');
   txt([fmtDate(e.date), e.course].filter(Boolean).join(' · '), P, P + 190, '500 #px ' + T, 30, W - P * 2, '#bbbcbc');
   // score
@@ -121,7 +121,7 @@ async function boardImage(box = 1350, W = 1080) {
   x.save(); x.translate(0, Math.floor((H - hC) / 2));
   const src = logoOf(e); let tx = P;
   if (src) { try { const img = new Image(); img.src = src; await img.decode(); const h = 120, w = img.width * h / img.height; x.drawImage(img, P, P, w, h); tx = P + Math.min(w, 160) + 20; } catch (_) { /* no picture */ } }
-  txt((e.eyebrow || 'Hickey Tournament').toUpperCase(), tx, P + 44, '700 #px ' + T, 28, W - tx - P, '#bbbcbc');
+  txt((e.eyebrow || '').toUpperCase(), tx, P + 44, '700 #px ' + T, 28, W - tx - P, '#bbbcbc');
   txt(String(e.name || 'Results').toUpperCase(), tx, P + 112, '900 #px ' + D, 72, W - tx - P, '#ffffff');
   txt([fmtDate(e.date), e.course].filter(Boolean).join(' · '), P, P + 190, '500 #px ' + T, 30, W - P * 2, '#bbbcbc');
   txt(formatLine(e).toUpperCase(), P, P + 232, '700 #px ' + T, 24, W - P * 2, '#bbbcbc');
@@ -192,7 +192,7 @@ async function pairingsImage(withCodes: boolean, box = 1350, W = 1080) {
   x.save(); x.translate(0, Math.floor((H - hC) / 2));
   const src = logoOf(e); let tx = P;
   if (src) { try { const img = new Image(); img.src = src; await img.decode(); const h = 120, w = img.width * h / img.height; x.drawImage(img, P, P, w, h); tx = P + Math.min(w, 160) + 20; } catch (_) { /* no picture */ } }
-  txt((e.eyebrow || 'Hickey Tournament').toUpperCase(), tx, P + 44, '700 #px ' + T, 28, W - tx - P, '#bbbcbc');
+  txt((e.eyebrow || '').toUpperCase(), tx, P + 44, '700 #px ' + T, 28, W - tx - P, '#bbbcbc');
   txt(String(e.name || 'Team event').toUpperCase(), tx, P + 112, '900 #px ' + D, 72, W - tx - P, '#ffffff');
   txt([fmtDate(e.date), e.course].filter(Boolean).join(' · '), P, P + 190, '500 #px ' + T, 30, W - P * 2, '#bbbcbc');
   if (ryder) {

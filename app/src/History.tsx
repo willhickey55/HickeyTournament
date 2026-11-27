@@ -14,7 +14,7 @@ export function HistoryPage() {
   return (
     <>
       <Header>
-        <div class="toprow"><div class="eyebrow">{E().eyebrow || 'Hickey Tournament'}</div><span class="hdr-r"><ViewSwitch /></span></div>
+        <div class="toprow"><div class="eyebrow">{E().eyebrow || ''}</div><span class="hdr-r"><ViewSwitch /></span></div>
         <div class="headline"><h1 class="evname">History</h1></div>
         <p class="fmtline">{r.years ? `${r.years} ${r.years === 1 ? 'tournament' : 'tournaments'} · since ${first}` : 'Every champion, every year'}</p>
       </Header>

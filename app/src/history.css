@@ -79,3 +79,7 @@
 /* the UNH pages put a royal stripe under the header; this site follows its own main color instead */
 .band,.lightband .band{box-shadow:none}
 .h-block .h-big{font-family:var(--display);font-weight:900;font-size:34px;line-height:1;color:var(--ink);margin:0 0 4px;font-variant-numeric:tabular-nums}
+/* Small text above the name (Look tab): plain text, same font as the rest of the page, on every screen (Will, Nov 26:
+   the mono capitals didn't fit). Blank = nothing (Boards.tsx). */
+.band .eyebrow,html:not(.exec) .band .eyebrow{font-family:var(--cond);font-size:14px;font-weight:600;letter-spacing:0;text-transform:none}
+.band .toprow:has(>.eyebrow:empty):has(>.hdr-r:empty){display:none}
