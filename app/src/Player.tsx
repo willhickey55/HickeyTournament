@@ -24,8 +24,15 @@ export function PlayerEvent() {
   }
   return (
     <>
-      <HomeHead />
-      <main><div class="wrap event-results">{!S.evReady ? <div class="skpage" role="status" aria-label="Loading"><span class="sk big" /><span class="sk title" /><span class="sk row" /><span class="sk row" /><span class="sk row" /></div> : !S.ev ? <><Lock title="This year’s tournament isn’t set up yet">Check back closer to June.</Lock><LastChamps /></> : <>{lateFind() ? null : <MyCard />}<Boards orgView={false} />{lateFind() ? <MyCard /> : null}<LastChamps /></>}</div></main>
+      {/* phones: one column in this order; laptops (redesign.css, >=1024px): header, your team and last year's
+          champions on the left, the leaderboard on the right (Will, Nov 26) */}
+      <div class="pl-grid">
+        <div class="pl-head"><HomeHead /></div>
+        <main class="pl-main"><div class="wrap event-results">{!S.evReady ? <div class="skpage" role="status" aria-label="Loading"><span class="sk big" /><span class="sk title" /><span class="sk row" /><span class="sk row" /><span class="sk row" /></div>
+          : !S.ev ? <Lock title="This year’s tournament isn’t set up yet">Check back closer to June.</Lock>
+          : <>{lateFind() ? null : <div class="pl-card"><MyCard /></div>}<div class="pl-board"><Boards orgView={false} />{lateFind() ? <MyCard /> : null}</div></>}</div></main>
+        <div class="pl-champs"><div class="wrap"><LastChamps /></div></div>
+      </div>
       <Foot />
     </>
   );

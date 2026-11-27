@@ -66,3 +66,6 @@ Read this first, then README.md.
 - Scoring screen has a leaderboard under the hole grid (`MiniBoard` in Scoring.tsx; hidden while the board is hidden).
 - Fixed: the player scorecard's `table.sc9.teams` picked up base.css `.teams{display:grid}` (laptop layout broke);
   the class is `tms` now. The same bug is likely in unh-golf events-app (not changed there).
+- Laptop layout (Will, Nov 26): >=1024px the live page is a grid (`.pl-grid` in Player.tsx / redesign.css): header, your
+  team card + scorecard and last year's champions on the left (360px), leaderboard on the right. `main` and its `.wrap`
+  are display:contents there. Phones unchanged (one column).

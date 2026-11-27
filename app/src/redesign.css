@@ -93,3 +93,23 @@ html:not(.exec) .h-year,html:not(.exec) .h-score,html:not(.exec) .h-pos,html:not
 @media (min-width:1024px){html .hh-hist .wrap{max-width:1120px}}
 /* leaderboard under the hole grid on the scoring screen */
 .sc-mini{margin-top:28px;display:flex;flex-direction:column;gap:10px}
+
+/* Laptops (Will, Nov 26): the header, your team and last year's champions in a column on the left, the leaderboard on
+   the right. Phones keep the single column (Player.tsx order). main and its .wrap step aside (display:contents) so
+   the card and the board sit in the grid directly. */
+@media (min-width:1024px){
+  html:not(.exec) .pl-grid{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);
+    grid-template-areas:"head board" "card board" "champs board";grid-template-rows:auto auto 1fr;
+    column-gap:56px;max-width:1180px;margin:0 auto;padding:36px 32px 8px;align-items:start}
+  html:not(.exec) .pl-main,html:not(.exec) .pl-main>.wrap{display:contents}
+  html:not(.exec) .pl-head{grid-area:head}
+  html:not(.exec) .pl-card{grid-area:card;margin-top:24px;display:flex;flex-direction:column;gap:14px}
+  html:not(.exec) .pl-board{grid-area:board;min-width:0}
+  html:not(.exec) .pl-champs{grid-area:champs}
+  html:not(.exec) .pl-head .hh .wrap,html:not(.exec) .pl-champs .wrap{max-width:none;padding:0;align-items:flex-start;text-align:left}
+  html:not(.exec) .pl-head .hh-logo{width:240px}
+  html:not(.exec) .pl-head .sitenav.pills .wrap{justify-content:flex-start;padding:18px 0 0}
+  html:not(.exec) .pl-board>.sechead:first-child,html:not(.exec) .pl-board>:first-child .sechead:first-child{padding-top:0}
+  html:not(.exec) .pl-board .sechead h2{font-size:34px}
+  html:not(.exec) .pl-card .sechead{padding-top:16px}
+}
